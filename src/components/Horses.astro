@@ -1,15 +1,13 @@
 ---
 /**
  * 05 — The horses. Large names, hairlines between rows, details on the right.
- * Each row is a <details>: tap/click (or Enter) opens it to show the photo — works without JS.
- * Desktop with a mouse: hovering a row shows the portrait, which follows the cursor softly.
- * Behaviour: src/scripts/horses.ts.
+ * Each row is a <details>: click/tap (or Enter) on a name opens it to show that horse's
+ * portrait and description — works without JS. Behaviour: src/scripts/horses.ts.
  */
 import { horses } from '../data/content';
 import SectionMeta from './SectionMeta.astro';
 import Title from './Title.astro';
 import Photo from './Photo.astro';
-import { webpAt } from '../data/images';
 const { width, height } = horses.portraitSize;
 ---
 <section id="horses" aria-labelledby="horses-title" data-section="05" data-horses class="relative mx-auto max-w-[1600px] px-5 py-24 md:px-10 md:py-40">
@@ -36,18 +34,23 @@ const { width, height } = horses.portraitSize;
               <span class="absolute inset-y-0 left-1/2 w-px bg-ink"></span>
             </span>
           </summary>
-          <div class="grid gap-6 pb-10 sm:grid-cols-12 sm:gap-10" data-horse-panel>
-            <p class="label text-muted sm:hidden">{horse.detail}</p>
-            <div class="aspect-[3/4] w-full max-w-sm overflow-hidden sm:col-span-5 sm:col-start-2 lg:col-span-3 lg:col-start-2">
-              <Photo
-                src={horse.portrait}
-                alt={horse.portraitAlt}
-                width={width}
-                height={height}
-                sizes="(min-width: 1024px) 25vw, (min-width: 640px) 40vw, 90vw"
-                class="h-full w-full object-cover object-top"
-                data-horse-panel-img
-              />
+          <div class="grid gap-6 pb-12 sm:grid-cols-12 sm:gap-10" data-horse-panel>
+            {horse.portrait && (
+              <div class="aspect-[4/5] w-full max-w-sm overflow-hidden bg-bg sm:col-span-5 sm:col-start-2 lg:col-span-3 lg:col-start-2">
+                <Photo
+                  src={horse.portrait}
+                  alt={horse.portraitAlt}
+                  width={width}
+                  height={height}
+                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 40vw, 90vw"
+                  class="blend-bg h-full w-full object-cover"
+                  data-horse-panel-img
+                />
+              </div>
+            )}
+            <div class:list={['sm:col-span-5 sm:self-end', horse.portrait ? 'sm:col-start-7 lg:col-start-6 lg:col-span-4' : 'sm:col-start-2']}>
+              <p class="label text-accent sm:hidden">{horse.detail}</p>
+              <p class="mt-4 max-w-md text-lg leading-relaxed text-muted sm:mt-0">{horse.description}</p>
             </div>
           </div>
         </details>
@@ -56,20 +59,4 @@ const { width, height } = horses.portraitSize;
   </ol>
   <div class="rule" aria-hidden="true"></div>
 
-  <!-- Cursor-following portrait (desktop with a mouse). Decorative: the same photos are in each row. -->
-  <div class="pointer-events-none fixed left-0 top-0 z-30 hidden w-[clamp(200px,20vw,320px)] opacity-0" data-horse-portrait aria-hidden="true">
-    <div class="relative aspect-[3/4] overflow-hidden">
-      {horses.list.map((horse) => (
-        <img
-          data-src={webpAt(horse.portrait, 800)}
-          alt=""
-          width={width}
-          height={height}
-          decoding="async"
-          class="absolute inset-0 h-full w-full object-cover object-top opacity-0"
-          data-horse-portrait-img
-        />
-      ))}
-    </div>
-  </div>
 </section>
