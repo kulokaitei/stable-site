@@ -1,24 +1,106 @@
 ---
+import 'lenis/dist/lenis.css';
 import '../styles/global.css';
-import { site } from '../data/content';
+import { site, seo } from '../data/content';
+
+interface Props {
+  /** Page title. Defaults to the home page title. */
+  title?: string;
+  description?: string;
+  /** Adds the LocalBusiness structured data (home page only). */
+  structuredData?: boolean;
+  /** Preload the first hero frame (home page only). */
+  preloadHero?: boolean;
+  /** Keep this page out of search results (e.g. 404). */
+  noindex?: boolean;
+}
+
+const {
+  title = seo.title,
+  description = seo.description,
+  structuredData = false,
+  preloadHero = false,
+  noindex = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(seo.image.src, Astro.site);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': ['LocalBusiness', 'SportsActivityLocation'],
+  '@id': new URL('/#business', Astro.site).href,
+  name: site.name,
+  description: seo.description,
+  url: new URL('/', Astro.site).href,
+  image: ogImage.href,
+  email: seo.business.email,
+  telephone: seo.business.telephone,
+  priceRange: seo.business.priceRange,
+  address: {
+    '@type': 'PostalAddress',
+    ...seo.business.address,
+  },
+  areaServed: seo.business.areaServed,
+  openingHoursSpecification: seo.business.openingHours.map((h) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: h.days,
+    opens: h.opens,
+    closes: h.closes,
+  })),
+  makesOffer: seo.business.offers.map((name) => ({
+    '@type': 'Offer',
+    itemOffered: { '@type': 'Service', name },
+  })),
+};
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{site.title}</title>
-    <meta name="description" content={site.description} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+    <meta name="robots" content={noindex ? 'noindex' : 'index, follow, max-image-preview:large'} />
     <meta name="theme-color" content="#050404" />
-    <meta property="og:title" content={site.title} />
-    <meta property="og:description" content={site.description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="/images/hero-still.jpg" />
+    <meta name="color-scheme" content="dark" />
     <script is:inline>
       // Motion-enabled visitors get the preloader and reveals; everyone else sees the page as-is.
       if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-motion');
     </script>
-    <link rel="preload" as="image" href="/video/idle-poster.jpg" fetchpriority="high" />
+
+    <!-- Social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage.href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={seo.image.alt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage.href} />
+
+    <!-- Icons -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    {preloadHero && (
+      <>
+        <link rel="preload" as="image" href="/frames/head/001.webp" media="(min-width: 768px)" fetchpriority="high" />
+        <link rel="preload" as="image" href="/frames/head-mobile/001.webp" media="(max-width: 767px)" fetchpriority="high" />
+      </>
+    )}
+
+    {structuredData && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body>
     <slot />

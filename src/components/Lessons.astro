@@ -17,9 +17,9 @@ const total = String(lessons.levels.length).padStart(2, '0');
     <div class="mt-16 grid items-center gap-12 lg:mt-24 lg:grid-cols-12 lg:gap-10">
       <!-- Horse + ground -->
       <div class="lg:col-span-7">
-        <div class="relative aspect-video overflow-hidden">
+        <div class="edge-fade relative aspect-video overflow-hidden bg-bg">
           <video
-            class="motion-only h-full w-full object-cover"
+            class="blend-bg motion-only h-full w-full object-cover"
             src={lessons.video.src}
             poster={lessons.video.poster}
             autoplay
@@ -30,7 +30,7 @@ const total = String(lessons.levels.length).padStart(2, '0');
             aria-label={lessons.video.alt}
           ></video>
           <img
-            class="still-only h-full w-full object-cover"
+            class="blend-bg still-only h-full w-full object-cover"
             src={lessons.video.poster}
             alt={lessons.video.alt}
             width="1280"

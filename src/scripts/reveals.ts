@@ -21,12 +21,13 @@ function splitHeading(el: HTMLElement, animate: (lines: Element[]) => gsap.core.
 
 /** Hero intro — built paused (elements start hidden) and played when the preloader leaves. */
 export function heroIntro(): gsap.core.Timeline {
-  const hero = document.getElementById('top')!;
   const tl = gsap.timeline({ paused: true });
+  tl.from('[data-header]', { opacity: 0, duration: 1.2, ease: EASE }, 0.2);
+  const hero = document.getElementById('top');
+  if (!hero) return tl; // pages without the hero (privacy, 404)
   const h1 = hero.querySelector<HTMLElement>('[data-split]');
 
-  tl.from('[data-header]', { opacity: 0, duration: 1.2, ease: EASE }, 0.2)
-    .from('[data-hero-media]', { scale: 1.06, duration: 1.4, ease: EASE }, 0)
+  tl.from('[data-hero-media]', { scale: 1.06, duration: 1.4, ease: EASE }, 0)
     .from(hero.querySelectorAll('.label'), { opacity: 0, duration: 1, ease: EASE, stagger: 0.1 }, 0.3)
     .fromTo(hero.querySelectorAll('.rule'), { '--draw': 0 }, { '--draw': 1, duration: 1.4, ease: EASE }, 0.5)
     .from(hero.querySelectorAll('.rule p, .rule .btn'), { opacity: 0, y: 16, duration: 1, ease: EASE, stagger: 0.1 }, 0.7);

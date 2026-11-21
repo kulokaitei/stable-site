@@ -17,7 +17,7 @@ export function initSmoothScroll(): Lenis {
   // In-page links: smooth scroll, then move focus to the target (keeps the skip link accessible).
   document.addEventListener('click', (e) => {
     const link = (e.target as Element | null)?.closest<HTMLAnchorElement>('a[href^="#"]');
-    const id = link?.getAttribute('href')?.slice(1);
+    const id = link?.getAttribute('href')?.slice(1); // '' for a bare "#" → ignored
     const target = id ? document.getElementById(id) : null;
     if (!link || !target) return;
     e.preventDefault();

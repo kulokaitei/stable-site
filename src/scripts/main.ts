@@ -41,6 +41,7 @@ async function main() {
   await runPreloader(() => {
     intro.play();
     lenis.start();
+    ScrollTrigger.sort(); // triggers come from several scripts; keep them in page order around the hero pin
     ScrollTrigger.refresh();
   });
 }

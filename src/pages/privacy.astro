@@ -1,0 +1,157 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site, seo, privacy } from '../data/content';
+
+const email = seo.business.email;
+---
+<Base title={privacy.title} description={privacy.description}>
+  <Header />
+  <main id="main" tabindex="-1" class="mx-auto max-w-[1600px] px-5 pb-24 pt-40 md:px-10 md:pb-40 md:pt-52">
+    <p class="label text-muted"><span class="text-accent">Legal</span> — Last updated {privacy.updated}</p>
+    <h1 class="display mt-8 max-w-[14ch] text-5xl md:text-7xl lg:text-8xl">Privacy &amp; <em>cookie</em> policy</h1>
+
+    <div class="hairline mt-16 grid gap-12 border-t pt-12 md:mt-24 lg:grid-cols-12 lg:gap-10">
+      <aside class="lg:col-span-3">
+        <p class="label text-muted">In short</p>
+        <p class="display mt-4 text-3xl leading-tight">
+          No tracking. No advertising cookies. We only use the details you choose to send us — to <em>answer you</em>.
+        </p>
+      </aside>
+
+      <article class="policy flex flex-col gap-12 text-base leading-relaxed text-muted lg:col-span-7 lg:col-start-6">
+        <section>
+          <h2>1. Who we are</h2>
+          <p>
+            This website belongs to {site.name}, an equestrian centre in the {site.location}, Lithuania. We are the data
+            controller for any personal data described in this policy. Questions about your data:
+            <a href={`mailto:${email}`}>{email}</a>.
+          </p>
+        </section>
+
+        <section>
+          <h2>2. Cookies</h2>
+          <p>
+            <strong>This website does not use cookies</strong> or similar technologies (such as local storage or
+            tracking pixels) to identify or follow you. There is no analytics software, no advertising and no social
+            media plugins. Our fonts, images and videos are served from our own website, so no third party learns that
+            you visited.
+          </p>
+          <p>
+            Because we only use what is strictly necessary to show you the page, we do not need to ask for your consent
+            and there is no cookie banner. If we ever add analytics or other optional cookies, we will ask for your
+            permission first and update this page.
+          </p>
+        </section>
+
+        <section>
+          <h2>3. What we collect and why</h2>
+          <h3>When you contact us</h3>
+          <p>
+            If you email or call us, we receive your name, contact details and whatever you tell us (for example, a
+            rider's age or experience). We use this only to answer you, arrange lessons, visits or livery, and keep in
+            touch about your bookings.
+          </p>
+          <p>
+            Legal basis: taking steps at your request before entering into an agreement, and performing that agreement
+            (GDPR Art. 6(1)(b)); and our legitimate interest in replying to enquiries (Art. 6(1)(f)).
+          </p>
+          <h3>When you visit the website</h3>
+          <p>
+            Like every website, our hosting provider automatically records basic technical information when a page is
+            requested — your IP address, browser type, the page requested and the time. This is used only to deliver the
+            site and keep it secure, and is deleted automatically after a short period.
+          </p>
+          <p>Legal basis: our legitimate interest in running a secure, working website (GDPR Art. 6(1)(f)).</p>
+        </section>
+
+        <section>
+          <h2>4. How long we keep it</h2>
+          <p>
+            Enquiries are kept for up to 2 years after our last contact, then deleted. If you become a client, booking
+            and payment records are kept for as long as Lithuanian accounting law requires. Server logs are kept only for
+            the short period our hosting provider needs for security.
+          </p>
+        </section>
+
+        <section>
+          <h2>5. Who else sees it</h2>
+          <p>
+            We never sell your data or share it for marketing. The website is hosted by Vercel Inc. (USA), which
+            processes the technical visit data on our behalf. Transfers outside the EU are protected by the European
+            Commission's Standard Contractual Clauses and, where applicable, the EU–US Data Privacy Framework. Our email
+            provider stores the messages you send us.
+          </p>
+        </section>
+
+        <section>
+          <h2>6. Your rights</h2>
+          <p>
+            You can ask us to show you the personal data we hold about you, correct it, delete it, limit how we use it,
+            or give it to you in a portable format. You can also object to processing based on our legitimate interest.
+            Just write to <a href={`mailto:${email}`}>{email}</a> — we reply within one month.
+          </p>
+          <p>
+            If you are unhappy with how we handle your data, you can complain to the State Data Protection Inspectorate
+            of Lithuania (<a href="https://vdai.lrv.lt/en/" rel="noopener">vdai.lrv.lt</a>).
+          </p>
+        </section>
+
+        <section>
+          <h2>7. Children</h2>
+          <p>
+            Lessons for children are booked by a parent or guardian. We only collect what we need about young riders —
+            such as age and riding experience — from the adult making the booking.
+          </p>
+        </section>
+
+        <section>
+          <h2>8. Changes</h2>
+          <p>
+            If we change how we use data — for example, by adding analytics — we will update this page and the date at
+            the top.
+          </p>
+        </section>
+
+        <a href="/" class="btn self-start">Back to the stable</a>
+      </article>
+    </div>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .policy h2 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: 2rem;
+    line-height: 1.1;
+    color: var(--color-ink);
+    margin-bottom: 1.25rem;
+  }
+  .policy h3 {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin: 1.75rem 0 0.75rem;
+  }
+  .policy p + p {
+    margin-top: 1rem;
+  }
+  .policy strong {
+    color: var(--color-ink);
+    font-weight: 500;
+  }
+  .policy a:not(.btn) {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-underline-offset: 4px;
+  }
+  .policy a:not(.btn):hover {
+    color: var(--color-accent);
+  }
+</style>

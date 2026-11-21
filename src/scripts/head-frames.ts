@@ -1,10 +1,10 @@
 /**
  * Head-turn image sequence (public/frames). Frame 1 = facing camera, 87 = profile.
- * Loaded once by the preloader; the scroll-driven canvas reuses the cache.
+ * One shared set of <img> objects: the preloader counts them, the hero canvas draws them.
  */
 export const HEAD_FRAME_COUNT = 87;
 
-let cache: HTMLImageElement[] | null = null;
+let images: HTMLImageElement[] | null = null;
 
 export function headFramePaths(): string[] {
   const dir = matchMedia('(max-width: 767px)').matches ? 'head-mobile' : 'head';
@@ -14,26 +14,24 @@ export function headFramePaths(): string[] {
   );
 }
 
-/** Resolves when the image is decoded — or failed, so loading can never hang. */
-export function loadImage(src: string): Promise<HTMLImageElement> {
-  const img = new Image();
-  img.decoding = 'async';
-  img.src = src;
-  return img.decode().then(
-    () => img,
-    () => img,
-  );
+/** Starts loading all frames (in order) the first time it is called; returns the same images after that. */
+export function headFrames(): HTMLImageElement[] {
+  if (!images) {
+    images = headFramePaths().map((src) => {
+      const img = new Image();
+      img.decoding = 'async';
+      img.src = src;
+      return img;
+    });
+  }
+  return images;
 }
 
-export function preloadHeadFrames(onEach: () => void): Promise<HTMLImageElement[]> {
-  return Promise.all(
-    headFramePaths().map((src) =>
-      loadImage(src).then((img) => {
-        onEach();
-        return img;
-      }),
-    ),
-  ).then((imgs) => (cache = imgs));
+/** Resolves once the image has loaded — or failed, so loading can never hang. */
+export function whenLoaded(img: HTMLImageElement): Promise<void> {
+  if (img.complete) return Promise.resolve();
+  return new Promise((resolve) => {
+    img.addEventListener('load', () => resolve(), { once: true });
+    img.addEventListener('error', () => resolve(), { once: true });
+  });
 }
-
-export const getHeadFrames = () => cache;
