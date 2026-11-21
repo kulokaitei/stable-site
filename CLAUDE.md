@@ -25,7 +25,7 @@ Tokens:
 Mobile-first, Lighthouse 90+, semantic HTML, alt text on every image, skip link.
 
 ## Sections (scroll story)
-00 preloader → 01 hero (the horse is COMPLETELY STILL on frame 1 until the visitor scrolls — no idle video, no cursor/mouse movement, ever: the owner asked for this. Pinned for 2000px; scroll position drives the head turn 1:1, and scrolling up plays it back at the same speed; headline fades up and out in the first 30%) → 02 the stable (parallax photos) → 03 lessons (one walk loop, the lesson levels change beside it) → 04 a day at the stable (horizontal scroll timeline 06:00–21:00) → 05 the horses (names list, portrait follows cursor) → 06 contact (the head turns back to face you).
+00 preloader → 01 hero (the horse is COMPLETELY STILL on frame 1 until the visitor scrolls — no idle video, no cursor/mouse movement, ever: the owner asked for this. Pinned for 2000px; scroll position drives the head turn 1:1, and scrolling up plays it back at the same speed; headline fades up and out in the first 30%) → 02 the stable (parallax photos) → 03 lessons (one walk loop, the lesson levels change beside it) → 04 a day at the stable (horizontal scroll timeline 06:00–21:00) → 05 the horses (names list; clicking a name opens that horse's portrait and description — NO cursor-following portrait: the owner asked for this) → 06 contact (the head turns back to face you).
 
 ## Section 03 — lessons (walk clip only)
 Pin the section. The walk loop plays at normal speed the whole time — never speed it up to fake other gaits.
@@ -41,6 +41,7 @@ looks like he is walking through the section. A small counter shows 01 / 04.
 - Frame loading: frames 1–10 load before the preloader ends, 11–87 in the background (`src/scripts/head-frames.ts`).
 - `public/video/walk.mp4` (+ poster) — 9s seamless walk loop, side view, horse walks in place. The ONLY gait clip: there will be no trot, canter or gallop videos.
 - `public/images/hero-still.jpg` — reduced-motion fallback for the hero.
+- `public/images/horses/` — SAMPLE AI-generated portraits (one per horse, originals in `raw/images/horses/`); web versions made by `npm run images`. Replace with real photos before launch.
 - `public/images/stable/` — 5 photos: aisle (section 02), 06:00 morning feed, 09:00 arena lesson, 14:00 paddock, 21:00 tack room. The paddock photo is brighter than the rest: darken it slightly in CSS.
 - `raw/` — originals. Never link to these from the site.
 
