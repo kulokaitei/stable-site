@@ -67,8 +67,6 @@ export const hero = {
   cta: { label: 'Book a lesson', href: '#contact' },
   scrollHint: 'Scroll',
   media: {
-    idleVideo: '/video/idle.mp4',
-    idlePoster: '/video/idle-poster.jpg',
     still: '/images/hero-still.jpg',
     alt: 'A dark bay horse with a white blaze looks straight at you, then turns his head to the side as you scroll.',
   },
@@ -229,8 +227,8 @@ export const contact = {
     // Frame 1 of the head-turn sequence = facing the camera.
     desktop: '/frames/head/001.webp',
     mobile: '/frames/head-mobile/001.webp',
-    width: 1280,
-    height: 720,
+    width: 1920,
+    height: 1080,
     alt: 'The dark bay horse facing you again.',
   },
   // SAMPLE contact details.
