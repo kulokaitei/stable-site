@@ -1,12 +1,12 @@
 /**
  * 00 — Preloader.
  * The hairline fill, its dot and the "Saddling up — n" counter follow the real loading
- * progress of the hero assets: the 87 head-turn frames the hero canvas draws.
+ * progress of the first head-turn frames (the rest keep loading in the background).
  * Then the name moves up and fades, and the page is revealed.
  */
 import { gsap } from 'gsap';
 import { EASE } from './motion';
-import { headFrames, whenLoaded } from './head-frames';
+import { headFrames, whenLoaded, FIRST_BATCH } from './head-frames';
 
 const TRACK_WIDTH = 200; // px, matches the markup
 const MIN_TIME = 900; // ms — never flash
@@ -36,8 +36,8 @@ export async function runPreloader(onReveal: () => void): Promise<void> {
     gsap.to(state, { p, duration: 0.8, ease: EASE, overwrite: true, onUpdate: render });
 
   // Frame 1 is what the visitor sees first, so it counts for more.
-  const frames = headFrames();
-  const weights = frames.map((_, i) => (i === 0 ? 10 : 1));
+  const frames = headFrames().slice(0, FIRST_BATCH);
+  const weights = frames.map((_, i) => (i === 0 ? 3 : 1));
   const total = weights.reduce((a, b) => a + b, 0);
   let loaded = 0;
   const tasks = Promise.all(

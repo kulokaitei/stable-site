@@ -6,6 +6,7 @@ import { initSmoothScroll } from './smooth-scroll';
 import { runPreloader } from './preloader';
 import { heroIntro, initScrollReveals } from './reveals';
 import { initSectionCounter } from './section-counter';
+import { initHero } from './hero';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 ScrollTrigger.config({ ignoreMobileResize: true });
@@ -32,6 +33,7 @@ async function main() {
   history.scrollRestoration = 'manual';
   window.scrollTo(0, 0);
   const lenis = initSmoothScroll();
+  initHero(); // starts loading frames 1–10 right away
   lenis.stop();
 
   await document.fonts.ready; // split lines with the real font metrics

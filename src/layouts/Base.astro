@@ -95,6 +95,7 @@ const jsonLd = {
 
     {preloadHero && (
       <>
+        <link rel="preload" as="image" href="/video/idle-poster.jpg" fetchpriority="high" />
         <link rel="preload" as="image" href="/frames/head/001.webp" media="(min-width: 768px)" fetchpriority="high" />
         <link rel="preload" as="image" href="/frames/head-mobile/001.webp" media="(max-width: 767px)" fetchpriority="high" />
       </>

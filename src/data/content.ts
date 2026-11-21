@@ -67,6 +67,8 @@ export const hero = {
   cta: { label: 'Book a lesson', href: '#contact' },
   scrollHint: 'Scroll',
   media: {
+    idleVideo: '/video/idle.mp4',
+    idlePoster: '/video/idle-poster.jpg',
     still: '/images/hero-still.jpg',
     alt: 'A dark bay horse with a white blaze looks straight at you, then turns his head to the side as you scroll.',
   },

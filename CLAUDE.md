@@ -25,7 +25,7 @@ Tokens:
 Mobile-first, Lighthouse 90+, semantic HTML, alt text on every image, skip link.
 
 ## Sections (scroll story)
-00 preloader → 01 hero (horse is completely still on frame 1; scrolling scrubs the head turn 1:1, scrolling up plays it back at the same speed; no idle video, no mouse movement) → 02 the stable (parallax photos) → 03 lessons (one walk loop, the lesson levels change beside it) → 04 a day at the stable (horizontal scroll timeline 06:00–21:00) → 05 the horses (names list, portrait follows cursor) → 06 contact (the head turns back to face you).
+00 preloader → 01 hero (idle loop plays behind the headline before scrolling; pinned for 2000px, the video fades out over the first 5% and a canvas scrubs the head turn 1:1 with scroll, both directions; headline fades up and out in the first 30%; on desktop at rest the cursor's X gently turns the head across frames 1–12, lerp 0.08) → 02 the stable (parallax photos) → 03 lessons (one walk loop, the lesson levels change beside it) → 04 a day at the stable (horizontal scroll timeline 06:00–21:00) → 05 the horses (names list, portrait follows cursor) → 06 contact (the head turns back to face you).
 
 ## Section 03 — lessons (walk clip only)
 Pin the section. The walk loop plays at normal speed the whole time — never speed it up to fake other gaits.
@@ -37,7 +37,8 @@ looks like he is walking through the section. A small counter shows 01 / 04.
 ## Assets (already prepared — use these, don't regenerate)
 - `public/frames/head/001–087.webp` — head-turn image sequence, 1280px (desktop). Frame 1 = facing camera, 87 = profile facing right.
 - `public/frames/head-mobile/001–087.webp` — same, 720px, for screens under 768px.
-- `public/video/idle.mp4` — NOT used: the hero must stay still until the visitor scrolls.
+- `public/video/idle.mp4` (+ `idle-poster.jpg`) — 9s seamless breathing loop, front-facing. Plays in the hero before scrolling.
+- Frame loading: frames 1–10 load before the preloader ends, 11–87 in the background (`src/scripts/head-frames.ts`).
 - `public/video/walk.mp4` (+ poster) — 9s seamless walk loop, side view, horse walks in place. The ONLY gait clip: there will be no trot, canter or gallop videos.
 - `public/images/hero-still.jpg` — reduced-motion fallback for the hero.
 - `public/images/stable/` — 5 photos: aisle (section 02), 06:00 morning feed, 09:00 arena lesson, 14:00 paddock, 21:00 tack room. The paddock photo is brighter than the rest: darken it slightly in CSS.

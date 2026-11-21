@@ -1,17 +1,26 @@
 ---
 /**
- * 01 — Hero.
- * The horse is completely still (frame 1) until the visitor scrolls.
- * The section is pinned; scroll position maps 1:1 to the head-turn frames
- * (public/frames/head). Scrolling back up plays the frames back at the same speed.
- * Reduced motion: a still image, no pinning.
+ * 01 — Hero. Idle loop at rest; pinned scroll turns the head (canvas frame sequence).
+ * Behaviour lives in src/scripts/hero.ts. Reduced motion: hero-still.jpg, no pin.
  */
 import { hero } from '../data/content';
 import Title from './Title.astro';
 ---
 <section id="top" aria-labelledby="hero-title" data-section="01" data-hero class="relative isolate flex h-svh min-h-[560px] flex-col justify-end overflow-hidden">
-  <div class="absolute inset-0 -z-10" data-hero-media>
-    <canvas class="motion-only absolute inset-0 h-full w-full" data-head-canvas role="img" aria-label={hero.media.alt}></canvas>
+  <div class="absolute inset-0 -z-10 bg-bg" data-hero-media>
+    <canvas class="motion-only absolute inset-0 h-full w-full" style="opacity: 0" data-head-canvas role="img" aria-label={hero.media.alt}></canvas>
+    <video
+      class="blend-bg motion-only absolute inset-0 h-full w-full object-cover"
+      src={hero.media.idleVideo}
+      poster={hero.media.idlePoster}
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      aria-hidden="true"
+      data-hero-video
+    ></video>
     <img
       class="still-only h-full w-full object-cover object-top"
       src={hero.media.still}
@@ -36,97 +45,3 @@ import Title from './Title.astro';
     </div>
   </div>
 </section>
-
-<script>
-  import { gsap } from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import { headFrames, whenLoaded, HEAD_FRAME_COUNT as FRAME_COUNT } from '../scripts/head-frames';
-  gsap.registerPlugin(ScrollTrigger);
-
-  const BG = '#050404';
-  const section = document.querySelector<HTMLElement>('[data-hero]');
-  const canvas = document.querySelector<HTMLCanvasElement>('[data-head-canvas]');
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (section && canvas && !reduced) {
-    const ctx = canvas.getContext('2d')!;
-    // Same images the preloader is counting (one download, shared cache).
-    const images = headFrames();
-    const state = { frame: 0 };
-    let drawn = -1;
-
-    const isReady = (img?: HTMLImageElement) => !!img && img.complete && img.naturalWidth > 0;
-
-    // While frames are still loading, show the closest one that is ready.
-    const nearestReady = (i: number) => {
-      for (let d = 0; d < FRAME_COUNT; d++) {
-        if (isReady(images[i - d])) return images[i - d];
-        if (isReady(images[i + d])) return images[i + d];
-      }
-      return null;
-    };
-
-    const render = (force = false) => {
-      const i = Math.round(state.frame);
-      if (!force && i === drawn) return;
-      const img = nearestReady(i);
-      if (!img) return;
-      drawn = i;
-
-      const cw = canvas.width;
-      const ch = canvas.height;
-      const iw = img.naturalWidth;
-      const ih = img.naturalHeight;
-      let s: number, dx: number, dy: number;
-      if (cw / ch >= 1) {
-        // Landscape: cover the screen.
-        s = Math.max(cw / iw, ch / ih);
-        dx = (cw - iw * s) / 2;
-        dy = (ch - ih * s) / 2;
-      } else {
-        // Portrait (phones): keep the whole head in view, near the top.
-        s = cw / (iw * 0.55);
-        dx = cw / 2 - iw * 0.53 * s;
-        dy = ch * 0.08;
-      }
-
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.fillStyle = BG;
-      ctx.fillRect(0, 0, cw, ch);
-      // 'lighten' turns the video's pure black into exactly the site background.
-      ctx.globalCompositeOperation = 'lighten';
-      ctx.drawImage(img, dx, dy, iw * s, ih * s);
-    };
-
-    const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.round(canvas.clientWidth * dpr);
-      canvas.height = Math.round(canvas.clientHeight * dpr);
-      render(true);
-    };
-
-    images.forEach((img, i) =>
-      whenLoaded(img).then(() => {
-        if (i === 0 || Math.abs(i - state.frame) < 2) render(true);
-      }),
-    );
-
-    resize();
-    window.addEventListener('resize', resize);
-
-    // Pinned for 1.5 screens of scrolling. scrub: true = the frame follows the
-    // scroll position exactly, forwards and backwards, with no extra delay.
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: 'top top',
-        end: '+=150%',
-        pin: true,
-        scrub: true,
-        anticipatePin: 1,
-      },
-    });
-    tl.to(state, { frame: FRAME_COUNT - 1, ease: 'none', duration: 1, onUpdate: () => render() }, 0);
-    tl.to('[data-hero-copy]', { autoAlpha: 0, y: -40, ease: 'none', duration: 0.3 }, 0);
-  }
-</script>
