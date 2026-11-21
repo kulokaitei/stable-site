@@ -9,6 +9,7 @@ import { initSectionCounter } from './section-counter';
 import { initHero } from './hero';
 import { initStable } from './stable';
 import { initLessons } from './lessons';
+import { initDay } from './day';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 ScrollTrigger.config({ ignoreMobileResize: true });
@@ -23,6 +24,7 @@ async function main() {
   initSectionCounter(motion);
 
   if (!motion) {
+    initDay(false); // swipeable row + progress bar, no pin
     // Reduced motion: native scroll, no reveals, no preloader; stop the hidden loop videos.
     document.querySelectorAll<HTMLVideoElement>('video.motion-only').forEach((v) => {
       v.pause();
@@ -37,6 +39,7 @@ async function main() {
   const lenis = initSmoothScroll();
   initHero(); // starts loading frames 1–10 right away
   initLessons(); // pins are created before the reveals so positions below them are correct
+  initDay(true);
   lenis.stop();
 
   await document.fonts.ready; // split lines with the real font metrics

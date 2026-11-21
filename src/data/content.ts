@@ -152,11 +152,12 @@ export const day = {
   number: '04',
   label: 'A day at the stable',
   title: { before: 'From first light', accent: 'to', after: 'last check' },
+  scrollerLabel: 'A day at the stable, 06:00 to 21:00. Scroll sideways to see each time of day.',
   entries: [
     {
       time: '06:00',
       title: 'Morning feed',
-      body: 'The day starts in the dark. Hay, breakfast and a quiet check of every horse — legs, eyes, appetite — before the yard wakes up.',
+      body: 'Hay, breakfast and a quiet check of every horse.',
       image: {
         src: '/images/stable/stable-02-0600-morning-feed.jpg',
         alt: 'A horse eating hay in its stall at dawn, its breath steaming in the cold air.',
@@ -167,7 +168,7 @@ export const day = {
     {
       time: '09:00',
       title: 'Arena lessons',
-      body: 'The first riders arrive. Light comes through the high windows of the indoor arena as the morning lessons begin.',
+      body: 'The first riders arrive as light fills the arena.',
       image: {
         src: '/images/stable/stable-03-0900-arena-lesson.jpg',
         alt: 'A rider trotting a dark bay horse through beams of morning light in the indoor arena.',
@@ -178,7 +179,7 @@ export const day = {
     {
       time: '14:00',
       title: 'Paddock time',
-      body: 'Afternoons belong to the horses. The herd goes out together to graze, roll in the grass and simply be horses.',
+      body: 'The herd goes out to graze, roll and be horses.',
       image: {
         src: '/images/stable/stable-04-1400-paddock-turnout.jpg',
         alt: 'Horses grazing in a misty paddock behind a wooden fence in the afternoon sun.',
@@ -189,9 +190,20 @@ export const day = {
       darken: true,
     },
     {
+      time: '18:00',
+      title: 'Evening stables',
+      body: 'The horses come in as the lanterns light the aisle.',
+      image: {
+        src: '/images/stable/stable-01-aisle-dusk.jpg',
+        alt: 'The stable aisle at dusk, lanterns glowing above the wooden stalls and a horse looking out.',
+        width: 1600,
+        height: 900,
+      },
+    },
+    {
       time: '21:00',
       title: 'Last check',
-      body: 'Leather is cleaned and hung up, rugs go on, water is topped up — and the lights go off one stall at a time.',
+      body: 'Rugs on, and the lights go off stall by stall.',
       image: {
         src: '/images/stable/stable-05-2100-tack-room.jpg',
         alt: 'Saddles and bridles hanging in the tack room under a warm lamp at night.',

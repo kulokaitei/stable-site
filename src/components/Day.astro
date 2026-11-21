@@ -1,28 +1,46 @@
 ---
 /**
  * 04 — A day at the stable. Timeline 06:00 → 21:00.
- * Now: a native horizontal scroller (swipe / shift+scroll).
- * Later: pinned and driven by vertical scroll.
+ * Desktop with motion: pinned; vertical scroll moves the row sideways (scripts/day.ts).
+ * Mobile / reduced motion: a native swipeable row with snap points.
+ * The hairline progress bar (one dot per time) follows either.
+ * --ph = photo height while pinned (sized to the screen height so everything fits).
  */
 import { day } from '../data/content';
 import SectionMeta from './SectionMeta.astro';
 import Title from './Title.astro';
+const n = day.entries.length;
 ---
-<section id="day" aria-labelledby="day-title" data-section="04" class="py-24 md:py-40">
-  <div class="mx-auto max-w-[1600px] px-5 md:px-10">
+<section
+  id="day"
+  aria-labelledby="day-title"
+  data-section="04"
+  data-day
+  class="py-24 md:py-40 pinned:flex pinned:h-svh pinned:min-h-[600px] pinned:flex-col pinned:py-0 pinned:pb-10 pinned:pt-28"
+  style="--ph: clamp(180px, 34svh, 420px)"
+>
+  <div class="mx-auto w-full max-w-[1600px] px-5 md:px-10">
     <SectionMeta number={day.number} label={day.label} />
-    <Title id="day-title" title={day.title} class="mt-12 max-w-[14ch] text-5xl md:mt-20 md:text-7xl lg:text-8xl" />
+    <Title id="day-title" title={day.title} class="mt-12 max-w-[14ch] text-5xl md:mt-20 md:text-7xl pinned:mt-8 pinned:max-w-none pinned:text-6xl" />
   </div>
 
-  <div class="mt-16 overflow-x-auto md:mt-24" data-day-viewport>
-    <ol class="flex w-max gap-5 px-5 pb-6 md:gap-10 md:px-10" data-day-track>
+  <!-- Viewport: native horizontal scroll (mobile) or clipped + moved by the script (pinned) -->
+  <div
+    class="mt-14 snap-x snap-mandatory scroll-px-5 overflow-x-auto [scrollbar-width:none] md:mt-20 md:scroll-px-10 [&::-webkit-scrollbar]:hidden pinned:mt-0 pinned:flex pinned:flex-1 pinned:snap-none pinned:items-center pinned:overflow-hidden"
+    tabindex="0"
+    role="region"
+    aria-label={day.scrollerLabel}
+    data-day-viewport
+  >
+    <ol class="relative flex w-max gap-6 px-5 md:gap-12 md:px-10 pinned:gap-[7vw]" data-day-track>
       {day.entries.map((entry) => (
-        <li class="w-[80vw] shrink-0 sm:w-[60vw] lg:w-[42vw]">
-          <div class="rule flex items-baseline justify-between pt-4">
-            <time class="display text-5xl text-accent md:text-6xl" datetime={entry.time}>{entry.time}</time>
-            <h3 class="label text-muted">{entry.title}</h3>
+        <li class="w-[78vw] shrink-0 snap-start sm:w-[56vw] md:w-[44vw] pinned:w-[calc(var(--ph)*1.5)]" data-day-panel>
+          <div class="rule flex items-baseline justify-between gap-6 pt-4">
+            <time class="display text-7xl leading-none md:text-8xl pinned:text-[clamp(3.5rem,11svh,8rem)]" datetime={entry.time}>{entry.time}</time>
+            <h3 class="label text-accent">{entry.title}</h3>
           </div>
-          <div class="mt-6 aspect-[3/2] overflow-hidden">
+          <p class="mt-4 text-muted">{entry.body}</p>
+          <div class="mt-6 aspect-[3/2] overflow-hidden pinned:h-[var(--ph)]">
             <img
               src={entry.image.src}
               alt={entry.image.alt}
@@ -33,9 +51,22 @@ import Title from './Title.astro';
               class:list={['h-full w-full object-cover', entry.darken && 'img-darken']}
             />
           </div>
-          <p class="mt-6 max-w-sm leading-relaxed text-muted">{entry.body}</p>
         </li>
       ))}
     </ol>
+  </div>
+
+  <!-- Progress: hairline, accent fill, one dot per time (positions set by the script) -->
+  <div class="mx-auto mt-10 w-full max-w-[1600px] px-5 md:px-10 pinned:mt-8" aria-hidden="true">
+    <div class="relative mx-4 h-px bg-line" data-day-bar>
+      <div class="absolute inset-0 origin-left bg-accent" style="transform: scaleX(0)" data-day-fill></div>
+      {day.entries.map((entry, i) => (
+        <div class="absolute top-0" style={`left: ${(i / (n - 1)) * 100}%`} data-day-dot>
+          <span class="absolute left-0 top-0 block size-[7px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-line bg-bg"></span>
+          <span class="absolute left-0 top-0 block size-[7px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent opacity-0" data-day-dot-on></span>
+          <span class="label absolute left-0 top-3 -translate-x-1/2 text-muted">{entry.time}</span>
+        </div>
+      ))}
+    </div>
   </div>
 </section>
