@@ -93,6 +93,21 @@ export const stable = {
     width: 1600,
     height: 900,
   },
+  // Two smaller photos layered over the aisle at different depths (also used in section 04).
+  details: [
+    {
+      src: '/images/stable/stable-02-0600-morning-feed.jpg',
+      alt: 'A horse eating hay in its stall at dawn, its breath steaming in the cold air.',
+      width: 1600,
+      height: 1067,
+    },
+    {
+      src: '/images/stable/stable-05-2100-tack-room.jpg',
+      alt: 'Saddles and bridles hanging in the tack room under a warm lamp at night.',
+      width: 1600,
+      height: 1067,
+    },
+  ],
 };
 
 export const lessons = {

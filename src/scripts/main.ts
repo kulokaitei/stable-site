@@ -7,6 +7,7 @@ import { runPreloader } from './preloader';
 import { heroIntro, initScrollReveals } from './reveals';
 import { initSectionCounter } from './section-counter';
 import { initHero } from './hero';
+import { initStable } from './stable';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 ScrollTrigger.config({ ignoreMobileResize: true });
@@ -39,6 +40,7 @@ async function main() {
   await document.fonts.ready; // split lines with the real font metrics
   const intro = heroIntro();
   initScrollReveals();
+  initStable();
 
   await runPreloader(() => {
     intro.play();
