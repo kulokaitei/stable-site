@@ -61,7 +61,10 @@ export function initScrollReveals(): void {
     );
 
   // Labels fade in
-  const labels = gsap.utils.toArray<HTMLElement>('main .label, footer .label').filter(outsideHero);
+  const labels = gsap.utils
+    .toArray<HTMLElement>('main .label, footer .label')
+    .filter(outsideHero)
+    .filter((el) => !el.closest('[data-horse-panel]')); // inside closed rows: animated on open instead
   gsap.set(labels, { opacity: 0 });
   ScrollTrigger.batch(labels, {
     start: 'clamp(top 92%)',

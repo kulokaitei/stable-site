@@ -1,13 +1,16 @@
 ---
 /**
- * 05 — The horses. A list of names.
- * Later: on hover, the portrait follows the cursor.
+ * 05 — The horses. Large names, hairlines between rows, details on the right.
+ * Each row is a <details>: tap/click (or Enter) opens it to show the photo — works without JS.
+ * Desktop with a mouse: hovering a row shows the portrait, which follows the cursor softly.
+ * Behaviour: src/scripts/horses.ts.
  */
 import { horses } from '../data/content';
 import SectionMeta from './SectionMeta.astro';
 import Title from './Title.astro';
+const { width, height } = horses.portraitSize;
 ---
-<section id="horses" aria-labelledby="horses-title" data-section="05" class="relative mx-auto max-w-[1600px] px-5 py-24 md:px-10 md:py-40">
+<section id="horses" aria-labelledby="horses-title" data-section="05" data-horses class="relative mx-auto max-w-[1600px] px-5 py-24 md:px-10 md:py-40">
   <SectionMeta number={horses.number} label={horses.label} />
 
   <div class="mt-12 grid gap-8 md:mt-20 md:grid-cols-12 md:gap-10">
@@ -17,21 +20,55 @@ import Title from './Title.astro';
 
   <ol class="mt-16 md:mt-24" data-horse-list>
     {horses.list.map((horse, i) => (
-      <li class="rule group" data-horse data-portrait={horse.portrait ?? ''}>
-        <div class="flex items-baseline gap-6 py-6 md:gap-10 md:py-8">
-          <span class="label w-8 text-muted">{String(i + 1).padStart(2, '0')}</span>
-          <h3 data-split class="display flex-1 text-4xl transition-colors duration-700 group-hover:text-accent md:text-6xl">{horse.name}</h3>
-          <span class="label hidden text-muted sm:block">{horse.detail}</span>
-        </div>
+      <li class="rule" data-horse data-index={i}>
+        <details class="group" data-horse-details>
+          <summary class="flex cursor-pointer list-none items-baseline gap-5 py-6 md:gap-10 md:py-8 [&::-webkit-details-marker]:hidden">
+            <span class="label w-8 shrink-0 text-muted">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="display flex-1 text-5xl leading-none transition-colors duration-700 group-hover:text-accent group-open:text-accent md:text-7xl lg:text-8xl">
+              <span class="block" data-split>{horse.name}</span>
+            </h3>
+            <span class="label hidden text-right text-muted sm:block">{horse.detail}</span>
+            <!-- plus → cross when open -->
+            <span class="relative size-3 shrink-0 self-center transition-transform duration-700 ease-[cubic-bezier(0.215,0.61,0.355,1)] group-open:rotate-45 sm:hidden" aria-hidden="true">
+              <span class="absolute inset-x-0 top-1/2 h-px bg-ink"></span>
+              <span class="absolute inset-y-0 left-1/2 w-px bg-ink"></span>
+            </span>
+          </summary>
+          <div class="grid gap-6 pb-10 sm:grid-cols-12 sm:gap-10" data-horse-panel>
+            <p class="label text-muted sm:hidden">{horse.detail}</p>
+            <div class="aspect-[3/4] w-full max-w-sm overflow-hidden sm:col-span-5 sm:col-start-2 lg:col-span-3 lg:col-start-2">
+              <img
+                src={horse.portrait}
+                alt={horse.portraitAlt}
+                width={width}
+                height={height}
+                loading="lazy"
+                decoding="async"
+                class="h-full w-full object-cover object-top"
+                data-horse-panel-img
+              />
+            </div>
+          </div>
+        </details>
       </li>
     ))}
   </ol>
   <div class="rule" aria-hidden="true"></div>
 
-  <!-- Cursor-following portrait (positioned by the animation step). Placeholder until portraits exist. -->
-  <div class="pointer-events-none fixed left-0 top-0 z-30 hidden aspect-[3/4] w-64 opacity-0" data-horse-portrait aria-hidden="true">
-    <div class="hairline flex h-full w-full items-center justify-center border bg-bg">
-      <span class="label text-muted">{horses.portraitPlaceholder}</span>
+  <!-- Cursor-following portrait (desktop with a mouse). Decorative: the same photos are in each row. -->
+  <div class="pointer-events-none fixed left-0 top-0 z-30 hidden w-[clamp(200px,20vw,320px)] opacity-0" data-horse-portrait aria-hidden="true">
+    <div class="relative aspect-[3/4] overflow-hidden">
+      {horses.list.map((horse) => (
+        <img
+          data-src={horse.portrait}
+          alt=""
+          width={width}
+          height={height}
+          decoding="async"
+          class="absolute inset-0 h-full w-full object-cover object-top opacity-0"
+          data-horse-portrait-img
+        />
+      ))}
     </div>
   </div>
 </section>

@@ -218,15 +218,16 @@ export const horses = {
   title: { before: 'Meet', accent: 'the', after: 'herd' },
   intro:
     'Every horse at Ashgrove has a job they love and a rider level they suit. Here are a few of the faces you will meet.',
-  // SAMPLE names. Set `portrait` to an image path (e.g. '/images/horses/luna.jpg') when photos exist.
+  // SAMPLE names. Portraits: every horse uses hero-still.jpg as a PLACEHOLDER until real
+  // photos exist — then set `portrait` to e.g. '/images/horses/luna.jpg' and update `portraitAlt`.
   list: [
-    { name: 'Luna', detail: 'Hanoverian mare · 11 · Dressage', portrait: null as string | null },
-    { name: 'Atlas', detail: 'Dutch Warmblood gelding · 12 · Jumping', portrait: null as string | null },
-    { name: 'Vėjas', detail: 'Žemaitukas gelding · 16 · First lessons', portrait: null as string | null },
-    { name: 'Mira', detail: 'Connemara pony · 9 · Young riders', portrait: null as string | null },
-    { name: 'Bruno', detail: 'Trakehner gelding · 14 · Trail rides', portrait: null as string | null },
+    { name: 'Luna', detail: 'Hanoverian mare · 11 · Dressage', portrait: '/images/hero-still.jpg', portraitAlt: 'Placeholder portrait for Luna: a dark bay horse with a white blaze.' },
+    { name: 'Atlas', detail: 'Dutch Warmblood gelding · 12 · Jumping', portrait: '/images/hero-still.jpg', portraitAlt: 'Placeholder portrait for Atlas: a dark bay horse with a white blaze.' },
+    { name: 'Vėjas', detail: 'Žemaitukas gelding · 16 · First lessons', portrait: '/images/hero-still.jpg', portraitAlt: 'Placeholder portrait for Vėjas: a dark bay horse with a white blaze.' },
+    { name: 'Mira', detail: 'Connemara pony · 9 · Young riders', portrait: '/images/hero-still.jpg', portraitAlt: 'Placeholder portrait for Mira: a dark bay horse with a white blaze.' },
+    { name: 'Bruno', detail: 'Trakehner gelding · 14 · Trail rides', portrait: '/images/hero-still.jpg', portraitAlt: 'Placeholder portrait for Bruno: a dark bay horse with a white blaze.' },
   ],
-  portraitPlaceholder: 'Portrait',
+  portraitSize: { width: 1200, height: 1800 },
 };
 
 export const contact = {
