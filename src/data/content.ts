@@ -27,7 +27,7 @@ export const header = {
 };
 
 export const preloader = {
-  label: 'Loading',
+  label: 'Saddling up',
 };
 
 export const hero = {

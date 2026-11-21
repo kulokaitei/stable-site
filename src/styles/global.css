@@ -139,3 +139,44 @@
     display: none !important;
   }
 }
+
+/* ---------- Motion ---------- */
+
+/* Drawable hairline: a top rule that GSAP draws left → right via --draw (transform only) */
+.rule {
+  position: relative;
+}
+.rule::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: var(--color-line);
+  transform: scaleX(var(--draw, 1));
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+/* SplitText line masks: a little room so descenders and italics aren't clipped */
+.split-line-mask {
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+  padding-right: 0.08em;
+  margin-right: -0.08em;
+}
+
+/* Preloader: only exists for motion-enabled visitors with JS */
+.preloader {
+  display: none;
+}
+.js-motion .preloader {
+  display: flex;
+  /* Failsafe: if the script never runs, get out of the way after 10s */
+  animation: preloader-failsafe 1s 10s var(--ease-out-3) forwards;
+}
+@keyframes preloader-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}

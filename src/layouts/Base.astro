@@ -14,9 +14,16 @@ import { site } from '../data/content';
     <meta property="og:description" content={site.description} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/images/hero-still.jpg" />
+    <script is:inline>
+      // Motion-enabled visitors get the preloader and reveals; everyone else sees the page as-is.
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-motion');
+    </script>
     <link rel="preload" as="image" href="/video/idle-poster.jpg" fetchpriority="high" />
   </head>
   <body>
     <slot />
+    <script>
+      import '../scripts/main.ts';
+    </script>
   </body>
 </html>

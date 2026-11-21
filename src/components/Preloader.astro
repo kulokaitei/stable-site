@@ -1,16 +1,22 @@
 ---
 /**
  * 00 — Preloader.
- * Hidden by default so the page works without JavaScript.
- * The animation step will un-hide it, count up while frames load, then remove it.
+ * Only shown when JavaScript runs and motion is allowed (`html.js-motion`).
+ * The fill, dot and counter follow the real loading progress of the hero assets.
  */
 import { site, preloader } from '../data/content';
 ---
-<div id="preloader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-bg" hidden aria-hidden="true">
-  <p class="display text-4xl md:text-6xl">{site.name}</p>
-  <div class="mt-10 flex w-48 items-center gap-4 text-muted">
-    <span class="label">{preloader.label}</span>
-    <span class="hairline h-px flex-1 border-t"></span>
-    <span class="label tabular-nums" data-preloader-count>00</span>
+<div id="preloader" class="preloader fixed inset-0 z-50 flex-col items-center justify-center bg-bg" aria-hidden="true">
+  <div class="overflow-hidden px-4 pb-[0.12em]">
+    <p class="display text-5xl md:text-7xl" data-preloader-name>{site.name}</p>
+  </div>
+  <div data-preloader-ui class="mt-10 flex flex-col items-center">
+    <div class="relative h-px w-[200px] bg-line">
+      <div class="absolute inset-0 origin-left bg-accent" style="transform: scaleX(0)" data-preloader-fill></div>
+      <div class="absolute -left-[2.5px] -top-[2px] size-[5px] rounded-full bg-accent" data-preloader-dot></div>
+    </div>
+    <p class="label mt-6 text-muted">
+      {preloader.label} — <span class="inline-block min-w-[3ch] tabular-nums text-ink" data-preloader-count>0</span>
+    </p>
   </div>
 </div>

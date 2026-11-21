@@ -17,15 +17,16 @@ import Title from './Title.astro';
 
   <ol class="mt-16 md:mt-24" data-horse-list>
     {horses.list.map((horse, i) => (
-      <li class="hairline group border-t last:border-b" data-horse data-portrait={horse.portrait ?? ''}>
+      <li class="rule group" data-horse data-portrait={horse.portrait ?? ''}>
         <div class="flex items-baseline gap-6 py-6 md:gap-10 md:py-8">
           <span class="label w-8 text-muted">{String(i + 1).padStart(2, '0')}</span>
-          <h3 class="display flex-1 text-4xl transition-colors duration-700 group-hover:text-accent md:text-6xl">{horse.name}</h3>
+          <h3 data-split class="display flex-1 text-4xl transition-colors duration-700 group-hover:text-accent md:text-6xl">{horse.name}</h3>
           <span class="label hidden text-muted sm:block">{horse.detail}</span>
         </div>
       </li>
     ))}
   </ol>
+  <div class="rule" aria-hidden="true"></div>
 
   <!-- Cursor-following portrait (positioned by the animation step). Placeholder until portraits exist. -->
   <div class="pointer-events-none fixed left-0 top-0 z-30 hidden aspect-[3/4] w-64 opacity-0" data-horse-portrait aria-hidden="true">

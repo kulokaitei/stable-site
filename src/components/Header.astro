@@ -3,7 +3,7 @@ import { site, nav, header, sectionCount } from '../data/content';
 const total = String(sectionCount).padStart(2, '0');
 ---
 <a href="#main" class="skip-link btn">{header.skipLink}</a>
-<header class="fixed inset-x-0 top-0 z-40">
+<header data-header class="fixed inset-x-0 top-0 z-40">
   <div class="mx-auto flex max-w-[1600px] items-center justify-between gap-6 px-5 py-5 md:px-10">
     <a href="#top" class="display text-2xl leading-none">{site.name}</a>
 
@@ -17,7 +17,7 @@ const total = String(sectionCount).padStart(2, '0');
 
     <div class="flex items-center gap-6">
       <p class="label hidden text-muted md:block" aria-hidden="true">
-        <span class="text-ink" data-section-current>01</span> / {total}
+        <span class="inline-flex overflow-hidden align-top"><span class="inline-block text-ink" data-section-current>01</span></span> / {total}
       </p>
       <a href={header.cta.href} class="btn hidden sm:inline-flex">{header.cta.label}</a>
 

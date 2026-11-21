@@ -29,7 +29,7 @@ import Title from './Title.astro';
     </div>
   </figure>
 
-  <dl class="hairline mt-12 grid grid-cols-3 border-t">
+  <dl class="rule mt-12 grid grid-cols-3">
     {stable.facts.map((fact, i) => (
       <div class:list={['hairline pt-6', i > 0 && 'border-l pl-5 md:pl-10']}>
         <dt class="label text-muted">{fact.label}</dt>

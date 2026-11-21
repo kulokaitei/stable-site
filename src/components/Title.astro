@@ -8,6 +8,6 @@ interface Props {
 }
 const { title, id, as: Tag = 'h2', class: className = '' } = Astro.props;
 ---
-<Tag id={id} class:list={['display text-balance', className]}>
+<Tag id={id} data-split class:list={['display text-balance', className]}>
   {title.before}{' '}<em>{title.accent}</em>{' '}{title.after}
 </Tag>

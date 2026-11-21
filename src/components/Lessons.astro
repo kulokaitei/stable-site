@@ -49,7 +49,7 @@ const total = String(lessons.levels.length).padStart(2, '0');
         </p>
         <ol class="flex flex-col gap-12" data-levels>
           {lessons.levels.map((level) => (
-            <li class="hairline border-t pt-6" data-level>
+            <li class="rule pt-6" data-level>
               <p class="label text-accent">{level.number}</p>
               <h3 class="display mt-4 text-4xl md:text-5xl">{level.title}</h3>
               <p class="mt-4 leading-relaxed text-muted">{level.body}</p>

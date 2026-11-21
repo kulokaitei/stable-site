@@ -8,7 +8,7 @@ import { hero } from '../data/content';
 import Title from './Title.astro';
 ---
 <section id="top" aria-labelledby="hero-title" data-section="01" class="relative isolate flex min-h-svh flex-col justify-end overflow-hidden">
-  <div class="absolute inset-0 -z-10">
+  <div class="absolute inset-0 -z-10" data-hero-media>
     <video
       class="motion-only h-full w-full object-cover"
       src={hero.media.idleVideo}
@@ -37,7 +37,7 @@ import Title from './Title.astro';
   <div class="mx-auto w-full max-w-[1600px] px-5 pb-10 pt-32 md:px-10 md:pb-14">
     <p class="label mb-6 text-muted"><span class="text-accent">{hero.number}</span> — {hero.label}</p>
     <Title as="h1" id="hero-title" title={hero.title} class="max-w-[12ch] text-6xl sm:text-7xl md:text-8xl lg:text-9xl" />
-    <div class="hairline mt-10 flex flex-col gap-8 border-t pt-6 md:flex-row md:items-end md:justify-between">
+    <div class="rule mt-10 flex flex-col gap-8 pt-6 md:flex-row md:items-end md:justify-between">
       <p class="max-w-md text-base leading-relaxed text-muted">{hero.intro}</p>
       <div class="flex items-center gap-8">
         <span class="label text-muted" aria-hidden="true">{hero.scrollHint} ↓</span>
