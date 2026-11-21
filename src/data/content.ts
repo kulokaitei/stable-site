@@ -91,25 +91,27 @@ export const stable = {
     { value: '18', label: 'Horses' }, // SAMPLE
     { value: '2009', label: 'Founded' }, // SAMPLE
   ],
+  // SAMPLE photos (AI-generated, photorealistic; originals in raw/images/stable-v2).
+  // Every photo on the site is used once: section 02 and section 04 have their own.
   image: {
-    src: '/images/stable/stable-01-aisle-dusk.jpg',
-    alt: 'The stable aisle at dusk, lanterns glowing above the wooden stalls and a horse looking out.',
-    width: 1600,
-    height: 900,
+    src: '/images/stable/stable-aisle-dusk.jpg',
+    alt: 'The stable aisle at dusk: lanterns over the timber stalls, a chestnut mare looking out, hay strands on the brick floor and a wheelbarrow by a stall.',
+    width: 1536,
+    height: 864,
   },
-  // Two smaller photos layered over the aisle at different depths (also used in section 04).
+  // Two smaller photos layered over the aisle at different depths.
   details: [
     {
-      src: '/images/stable/stable-02-0600-morning-feed.jpg',
-      alt: 'A horse eating hay in its stall at dawn, its breath steaming in the cold air.',
-      width: 1600,
-      height: 1067,
+      src: '/images/stable/stable-pony-haynet.jpg',
+      alt: 'A dapple-grey pony pulling hay from a hay net in a straw-bedded stall.',
+      width: 1024,
+      height: 1280,
     },
     {
-      src: '/images/stable/stable-05-2100-tack-room.jpg',
-      alt: 'Saddles and bridles hanging in the tack room under a warm lamp at night.',
-      width: 1600,
-      height: 1067,
+      src: '/images/stable/stable-stall-door.jpg',
+      alt: 'Leather headcollars and lead ropes hanging on a stall door, a muck fork and skip bucket below.',
+      width: 960,
+      height: 1280,
     },
   ],
 };
@@ -157,16 +159,18 @@ export const day = {
   label: 'A day at the stable',
   title: { before: 'From first light', accent: 'to', after: 'last check' },
   scrollerLabel: 'A day at the stable, 06:00 to 21:00. Scroll sideways to see each time of day.',
+  // SAMPLE photos (AI-generated, photorealistic; originals in raw/images/stable-v2).
+  // `darken`: the two daylight photos are brighter than the rest — toned down in CSS.
   entries: [
     {
       time: '06:00',
       title: 'Morning feed',
       body: 'Hay, breakfast and a quiet check of every horse.',
       image: {
-        src: '/images/stable/stable-02-0600-morning-feed.jpg',
-        alt: 'A horse eating hay in its stall at dawn, its breath steaming in the cold air.',
-        width: 1600,
-        height: 1067,
+        src: '/images/stable/day-0600-morning-feed.jpg',
+        alt: 'Before sunrise, a groom tips feed into a manger while a dark horse reaches over the stall door, its breath steaming in the cold.',
+        width: 1536,
+        height: 1024,
       },
     },
     {
@@ -174,23 +178,23 @@ export const day = {
       title: 'Arena lessons',
       body: 'The first riders arrive as light fills the arena.',
       image: {
-        src: '/images/stable/stable-03-0900-arena-lesson.jpg',
-        alt: 'A rider trotting a dark bay horse through beams of morning light in the indoor arena.',
-        width: 1600,
-        height: 1067,
+        src: '/images/stable/day-0900-arena-lesson.jpg',
+        alt: 'A rider trotting a dun horse across the indoor arena through beams of morning sunlight.',
+        width: 1536,
+        height: 1024,
       },
+      darken: true,
     },
     {
       time: '14:00',
       title: 'Paddock time',
       body: 'The herd goes out to graze, roll and be horses.',
       image: {
-        src: '/images/stable/stable-04-1400-paddock-turnout.jpg',
-        alt: 'Horses grazing in a misty paddock behind a wooden fence in the afternoon sun.',
-        width: 1600,
-        height: 1067,
+        src: '/images/stable/day-1400-paddock.jpg',
+        alt: 'Horses grazing in a paddock by a pine forest, a muddy patch by the fence and a hay feeder in the field.',
+        width: 1536,
+        height: 1024,
       },
-      // The paddock photo is brighter than the rest; darkened in CSS.
       darken: true,
     },
     {
@@ -198,10 +202,10 @@ export const day = {
       title: 'Evening stables',
       body: 'The horses come in as the lanterns light the aisle.',
       image: {
-        src: '/images/stable/stable-01-aisle-dusk.jpg',
-        alt: 'The stable aisle at dusk, lanterns glowing above the wooden stalls and a horse looking out.',
-        width: 1600,
-        height: 900,
+        src: '/images/stable/day-1800-coming-in.jpg',
+        alt: 'At sunset, a handler leads a chestnut horse in through the open barn doors, lanterns glowing inside.',
+        width: 1536,
+        height: 1024,
       },
     },
     {
@@ -209,10 +213,10 @@ export const day = {
       title: 'Last check',
       body: 'Rugs on, and the lights go off stall by stall.',
       image: {
-        src: '/images/stable/stable-05-2100-tack-room.jpg',
-        alt: 'Saddles and bridles hanging in the tack room under a warm lamp at night.',
-        width: 1600,
-        height: 1067,
+        src: '/images/stable/day-2100-last-check.jpg',
+        alt: 'Late at night, a chestnut mare in a navy stable rug dozes in her straw-bedded stall under a single warm light.',
+        width: 1536,
+        height: 1024,
       },
     },
   ],

@@ -1,0 +1,65 @@
+{
+  "/images/stable/day-0600-morning-feed.jpg": [
+    640,
+    1024,
+    1536
+  ],
+  "/images/stable/day-0900-arena-lesson.jpg": [
+    640,
+    1024,
+    1536
+  ],
+  "/images/stable/day-1400-paddock.jpg": [
+    640,
+    1024,
+    1536
+  ],
+  "/images/stable/day-1800-coming-in.jpg": [
+    640,
+    1024,
+    1536
+  ],
+  "/images/stable/day-2100-last-check.jpg": [
+    640,
+    1024,
+    1536
+  ],
+  "/images/stable/stable-aisle-dusk.jpg": [
+    640,
+    1024,
+    1536
+  ],
+  "/images/stable/stable-pony-haynet.jpg": [
+    480,
+    960
+  ],
+  "/images/stable/stable-stall-door.jpg": [
+    480,
+    960
+  ],
+  "/images/horses/atlas.jpg": [
+    480,
+    800
+  ],
+  "/images/horses/bruno.jpg": [
+    480,
+    800
+  ],
+  "/images/horses/luna.jpg": [
+    480,
+    800
+  ],
+  "/images/horses/mira.jpg": [
+    480,
+    800
+  ],
+  "/images/horses/vejas.jpg": [
+    480,
+    800
+  ],
+  "/images/hero-still.jpg": [
+    480,
+    800,
+    1200
+  ]
+}

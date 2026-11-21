@@ -55,7 +55,7 @@ looks like he is walking through the section. A small counter shows 01 / 04.
 - `public/video/walk.mp4` (+ poster) — 9s seamless walk loop, side view, horse walks in place. The ONLY gait clip: there will be no trot, canter or gallop videos.
 - `public/images/hero-still.jpg` — reduced-motion fallback for the hero.
 - `public/images/horses/` — SAMPLE AI-generated portraits (one per horse, originals in `raw/images/horses/`); web versions made by `npm run images`. Replace with real photos before launch.
-- `public/images/stable/` — 5 photos: aisle (section 02), 06:00 morning feed, 09:00 arena lesson, 14:00 paddock, 21:00 tack room. The paddock photo is brighter than the rest: darken it slightly in CSS.
+- `public/images/stable/` — 8 SAMPLE photorealistic AI photos, each used ONCE (no duplicates): section 02 = `stable-aisle-dusk` (large), `stable-pony-haynet`, `stable-stall-door`; section 04 = `day-0600-morning-feed`, `day-0900-arena-lesson`, `day-1400-paddock`, `day-1800-coming-in`, `day-2100-last-check`. Lived-in barn (hay strands, a little muck). Originals in `raw/images/stable-v2/`; `npm run images` makes the JPG + WebP sizes and `src/data/image-sizes.json`. The two daylight photos (arena, paddock) are brighter: darkened slightly in CSS (`darken: true`). Old originals in `raw/images/stable/` are no longer used.
 - `raw/` — originals. Never link to these from the site.
 
 All copy lives in `src/data/content.ts`. It is finished SAMPLE copy for a fictional stable, "Ashgrove Stables" near Vilnius — no [placeholders] on the site. Lines marked SAMPLE (name, numbers, prices, horse names, contact details) get replaced with the real stable's facts before launch.

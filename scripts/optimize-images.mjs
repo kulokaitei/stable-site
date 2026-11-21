@@ -1,37 +1,46 @@
 /**
- * Makes responsive WebP copies of the site photos (the original JPGs stay as they are).
+ * Makes the site's photos from the originals (never edits the originals).
  *   npm run images
- * Output sits next to each original: name-640.webp, name-1024.webp, …
- * Horse portraits are read from raw/images/horses/*.png.
- * The sizes must match WIDTHS in src/data/images.ts.
+ *
+ * - Stable photos: raw/images/stable-v2/<name>.png → public/images/stable/<name>.jpg
+ * - Horse portraits: raw/images/horses/<slug>.png → public/images/horses/<slug>.jpg
+ * - Then a responsive WebP set next to each JPG (name-<width>.webp), plus the hero still.
+ * - Writes src/data/image-sizes.json (which widths exist for each photo), read by
+ *   src/data/images.ts to build exact srcsets.
  */
 import sharp from 'sharp';
-import { existsSync, mkdirSync, readdirSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const jobs = [
-  ...readdirSync('public/images/stable')
-    .filter((f) => f.endsWith('.jpg'))
-    .map((f) => ({ file: join('public/images/stable', f), widths: [640, 1024, 1600] })),
-  { file: 'public/images/hero-still.jpg', widths: [480, 800, 1200] },
-];
+const jobs = []; // { file: public jpg path, widths: [...] }
 
-// Horse portraits: raw/images/horses/<slug>.png → public/images/horses/<slug>.jpg (fallback)
-// plus the WebP sizes above. (raw/ is never linked from the site.)
-if (existsSync('raw/images/horses')) {
-  mkdirSync('public/images/horses', { recursive: true });
-  for (const f of readdirSync('raw/images/horses').filter((f) => f.endsWith('.png'))) {
-    const jpg = join('public/images/horses', f.replace(/\.png$/, '.jpg'));
-    await sharp(join('raw/images/horses', f)).resize({ width: 800 }).jpeg({ quality: 82, mozjpeg: true }).toFile(jpg);
-    console.log(jpg);
-    jobs.push({ file: jpg, widths: [480, 800] });
+async function fromRaw(rawDir, outDir, maxWidth, quality) {
+  if (!existsSync(rawDir)) return;
+  mkdirSync(outDir, { recursive: true });
+  for (const f of readdirSync(rawDir).filter((f) => f.endsWith('.png')).sort()) {
+    const jpg = join(outDir, f.replace(/\.png$/, '.jpg'));
+    const info = await sharp(join(rawDir, f))
+      .resize({ width: maxWidth, withoutEnlargement: true })
+      .jpeg({ quality, mozjpeg: true })
+      .toFile(jpg);
+    const portrait = info.height > info.width;
+    const sizes = portrait ? [480, 960] : [640, 1024, 1536];
+    jobs.push({ file: jpg, widths: [...new Set(sizes.map((w) => Math.min(w, info.width)))] });
+    console.log(jpg, `${info.width}×${info.height}`);
   }
 }
 
+await fromRaw('raw/images/stable-v2', 'public/images/stable', 1536, 84);
+await fromRaw('raw/images/horses', 'public/images/horses', 800, 82);
+jobs.push({ file: 'public/images/hero-still.jpg', widths: [480, 800, 1200] });
+
+const manifest = {};
 for (const { file, widths } of jobs) {
   for (const w of widths) {
     const out = file.replace(/\.jpg$/, `-${w}.webp`);
     const info = await sharp(file).resize({ width: w, withoutEnlargement: true }).webp({ quality: 74 }).toFile(out);
-    console.log(out, `${Math.round(info.size / 1024)} KB`);
+    console.log('  ', out, `${Math.round(info.size / 1024)} KB`);
   }
+  manifest[file.replace(/^public/, '')] = widths;
 }
+writeFileSync('src/data/image-sizes.json', JSON.stringify(manifest, null, 2) + '\n');

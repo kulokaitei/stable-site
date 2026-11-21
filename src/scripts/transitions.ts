@@ -12,7 +12,7 @@
  */
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { EASE } from './motion';
+import { EASE, whenIdle } from './motion';
 
 const LEAN_MAX = 2.2; // degrees
 const LEAN_PER_PX_S = 1 / 900; // degrees per px/s of scroll speed
@@ -23,13 +23,11 @@ const LEAN_PER_PX_S = 1 / 900; // degrees per px/s of scroll speed
  * would block the page for a moment on slower phones.
  */
 export function initTransitions(): void {
-  const later = (fn: () => void) =>
-    'requestIdleCallback' in window ? requestIdleCallback(() => fn(), { timeout: 1000 }) : setTimeout(fn, 50);
-  later(() => {
+  whenIdle(() => {
     initHandoffs();
-    later(() => {
+    whenIdle(() => {
       initNumerals();
-      later(initLean);
+      whenIdle(initLean);
     });
   });
 }
