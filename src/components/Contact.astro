@@ -18,7 +18,7 @@ import Title from './Title.astro';
         <a href={contact.cta.href} class="btn mt-10">{contact.cta.label}</a>
       </div>
 
-      <picture class="block lg:col-span-6">
+      <picture class="block bg-bg lg:col-span-6">
         <source media="(max-width: 767px)" srcset={contact.head.mobile} width="720" height="406" />
         <img
           src={contact.head.desktop}
@@ -27,7 +27,7 @@ import Title from './Title.astro';
           height={contact.head.height}
           loading="lazy"
           decoding="async"
-          class="w-full"
+          class="blend-bg w-full"
           data-contact-head
         />
       </picture>

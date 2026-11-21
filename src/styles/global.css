@@ -122,6 +122,23 @@
     background-repeat: repeat-x;
   }
 
+  /* Video/frames have a pure black background. 'lighten' turns that black into
+     exactly the page background, so there is no visible box around them. */
+  .blend-bg {
+    mix-blend-mode: lighten;
+  }
+  /* Soft edges so the video melts into the page */
+  .edge-fade {
+    -webkit-mask-image:
+      linear-gradient(to right, transparent, #000 10%, #000 90%, transparent),
+      linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(to right, transparent, #000 10%, #000 90%, transparent),
+      linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
+    mask-composite: intersect;
+  }
+
   /* The paddock photo is brighter than the rest */
   .img-darken {
     filter: brightness(0.82);

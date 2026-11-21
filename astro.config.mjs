@@ -1,11 +1,13 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   output: 'static',
-  // Set this to the real domain once it is known (used for canonical URLs / sitemap).
-  // site: 'https://example.com',
+  // Live address of the site. Change this (and public/robots.txt) when the real domain is connected.
+  site: 'https://stable-site-seven.vercel.app',
+  integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
   },

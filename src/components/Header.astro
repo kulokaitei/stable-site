@@ -1,16 +1,17 @@
 ---
 import { site, nav, header, sectionCount } from '../data/content';
 const total = String(sectionCount).padStart(2, '0');
+const prefix = Astro.url.pathname === '/' ? '' : '/';
 ---
 <a href="#main" class="skip-link btn">{header.skipLink}</a>
-<header class="fixed inset-x-0 top-0 z-40">
+<header class="fixed inset-x-0 top-0 z-40 bg-gradient-to-b from-bg via-bg/80 to-transparent">
   <div class="mx-auto flex max-w-[1600px] items-center justify-between gap-6 px-5 py-5 md:px-10">
-    <a href="#top" class="display text-2xl leading-none">{site.name}</a>
+    <a href={prefix + "#top"} class="display text-2xl leading-none">{site.name}</a>
 
     <nav aria-label="Main" class="hidden lg:block">
       <ul class="flex items-center gap-8">
         {nav.map((item) => (
-          <li><a href={item.href} class="label text-muted transition-colors duration-700 hover:text-ink">{item.label}</a></li>
+          <li><a href={prefix + item.href} class="label text-muted transition-colors duration-700 hover:text-ink">{item.label}</a></li>
         ))}
       </ul>
     </nav>
@@ -19,16 +20,16 @@ const total = String(sectionCount).padStart(2, '0');
       <p class="label hidden text-muted md:block" aria-hidden="true">
         <span class="text-ink" data-section-current>01</span> / {total}
       </p>
-      <a href={header.cta.href} class="btn hidden sm:inline-flex">{header.cta.label}</a>
+      <a href={prefix + header.cta.href} class="btn hidden sm:inline-flex">{header.cta.label}</a>
 
       <details class="relative lg:hidden">
         <summary class="label cursor-pointer list-none text-ink [&::-webkit-details-marker]:hidden">{header.menuLabel}</summary>
         <nav aria-label="Mobile" class="hairline absolute right-0 top-10 w-56 border bg-bg p-6">
           <ul class="flex flex-col gap-5">
             {nav.map((item) => (
-              <li><a href={item.href} class="label text-muted hover:text-ink">{item.label}</a></li>
+              <li><a href={prefix + item.href} class="label text-muted hover:text-ink">{item.label}</a></li>
             ))}
-            <li><a href={header.cta.href} class="label text-accent">{header.cta.label}</a></li>
+            <li><a href={prefix + header.cta.href} class="label text-accent">{header.cta.label}</a></li>
           </ul>
         </nav>
       </details>
