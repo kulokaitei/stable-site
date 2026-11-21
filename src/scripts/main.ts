@@ -8,6 +8,7 @@ import { heroIntro, initScrollReveals } from './reveals';
 import { initSectionCounter } from './section-counter';
 import { initHero } from './hero';
 import { initStable } from './stable';
+import { initLessons } from './lessons';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 ScrollTrigger.config({ ignoreMobileResize: true });
@@ -35,6 +36,7 @@ async function main() {
   window.scrollTo(0, 0);
   const lenis = initSmoothScroll();
   initHero(); // starts loading frames 1–10 right away
+  initLessons(); // pins are created before the reveals so positions below them are correct
   lenis.stop();
 
   await document.fonts.ready; // split lines with the real font metrics
