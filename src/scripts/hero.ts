@@ -9,7 +9,7 @@
  */
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { HEAD_FRAME_COUNT } from './head-frames';
+import { frameAt } from './head-frames';
 import { EASE, prefersMotion } from './motion';
 import { framePlayer } from './frame-draw';
 
@@ -24,7 +24,7 @@ export function initHero(): void {
 
   gsap.registerPlugin(ScrollTrigger);
   const state = { progress: 0 };
-  const player = framePlayer(canvas, () => Math.round(state.progress * (HEAD_FRAME_COUNT - 1)));
+  const player = framePlayer(canvas, () => frameAt(state.progress));
   player.focus(); // decode the first frames now (they are loaded during the preloader)
   player.draw(true);
 

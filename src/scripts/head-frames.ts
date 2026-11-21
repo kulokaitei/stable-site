@@ -3,7 +3,10 @@
  * One shared set of <img> objects: the preloader waits for the first batch,
  * the hero canvas draws them. The rest load in the background straight after.
  */
-export const HEAD_FRAME_COUNT = 87;
+import frames from '../data/frames.json';
+
+/** Written by `npm run frames` (scripts/make-frames.mjs): count, file sizes, motion map. */
+export const HEAD_FRAME_COUNT: number = frames.count;
 /** Frames loaded before the preloader ends; the rest load in the background. */
 export const FIRST_BATCH = 10;
 
@@ -13,7 +16,22 @@ const small = () => matchMedia('(max-width: 767px)').matches;
 
 /** Pixel size of the frame files in use (desktop or mobile set). */
 export function headFrameSize(): { width: number; height: number } {
-  return small() ? { width: 1200, height: 675 } : { width: 1920, height: 1080 };
+  return small() ? frames.mobile : frames.desktop;
+}
+
+/**
+ * Frame index (0-based) for a turn progress 0 → 1, paced by MOTION rather than by frame
+ * number: frames.json records how far the head has turned at each frame, so equal scroll
+ * distances always turn the head by equal amounts (no fast start, no dead ending).
+ */
+export function frameAt(progress: number): number {
+  const m: number[] = frames.motion;
+  const p = Math.min(Math.max(progress, 0), 1);
+  let i = 1;
+  while (i < m.length - 1 && m[i] < p) i++;
+  const lo = m[i - 1];
+  const hi = m[i];
+  return hi > lo ? Math.round(i - 1 + (p - lo) / (hi - lo)) : i;
 }
 
 export function headFramePaths(): string[] {

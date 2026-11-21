@@ -5,6 +5,7 @@
  */
 import { focusFrame, frameSource, isFocused, onFrameReady } from './frame-cache';
 import { headFrameSize } from './head-frames';
+import { paintGrain } from './grain';
 
 const BG = '#050404';
 
@@ -43,6 +44,7 @@ export function drawFrame(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext
   ctx.imageSmoothingQuality = 'high';
   ctx.drawImage(img, dx, dy, dw, dh);
   ctx.globalCompositeOperation = 'source-over';
+  paintGrain(ctx, canvas.width, canvas.height);
 }
 
 /**

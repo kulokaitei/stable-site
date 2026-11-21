@@ -9,7 +9,7 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
-import { HEAD_FRAME_COUNT } from './head-frames';
+import { frameAt } from './head-frames';
 import { framePlayer } from './frame-draw';
 import { EASE } from './motion';
 
@@ -21,7 +21,7 @@ export function initContact(): void {
   if (!section || !canvas) return;
   // ---------- Reverse head turn ----------
   let progress = 0;
-  const player = framePlayer(canvas, () => Math.round((1 - progress) * (HEAD_FRAME_COUNT - 1))); // 87 → 1
+  const player = framePlayer(canvas, () => frameAt(1 - progress)); // 87 → 1
 
   // About a screen before the section arrives, start decoding the frames it opens on.
   ScrollTrigger.create({
