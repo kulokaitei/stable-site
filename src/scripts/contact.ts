@@ -9,8 +9,8 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
-import { headFrames, HEAD_FRAME_COUNT } from './head-frames';
-import { drawFrame, nearestReady, sizeCanvas } from './frame-draw';
+import { HEAD_FRAME_COUNT } from './head-frames';
+import { framePlayer } from './frame-draw';
 import { EASE } from './motion';
 
 const TURN_END = 'top 15%'; // the turn is complete when the section's top reaches 15% from the top
@@ -19,32 +19,20 @@ export function initContact(): void {
   const section = document.querySelector<HTMLElement>('[data-contact]');
   const canvas = section?.querySelector<HTMLCanvasElement>('[data-contact-canvas]');
   if (!section || !canvas) return;
-  const ctx = canvas.getContext('2d')!;
-  const images = headFrames(); // the same images the hero uses — already loaded by now
-
   // ---------- Reverse head turn ----------
   let progress = 0;
-  let drawnImg: HTMLImageElement | null = null;
-  const draw = (force = false) => {
-    const frame = Math.round((1 - progress) * (HEAD_FRAME_COUNT - 1)); // 87 → 1
-    const img = nearestReady(images, frame);
-    if (!img || (!force && img === drawnImg)) return;
-    drawnImg = img;
-    drawFrame(canvas, ctx, img);
-  };
-  new ResizeObserver(() => {
-    sizeCanvas(canvas);
-    draw(true);
-  }).observe(canvas);
-  // A frame just arrived: redraw only if it is closer to the wanted frame than the one shown
-  // (avoids ~87 full-canvas redraws while the sequence loads).
-  images.forEach((img, i) =>
-    img.addEventListener('load', () => {
-      const want = Math.round((1 - progress) * (HEAD_FRAME_COUNT - 1));
-      const shown = drawnImg ? images.indexOf(drawnImg) : -1;
-      if (shown < 0 || Math.abs(i - want) < Math.abs(shown - want)) draw(true);
-    }),
-  );
+  const player = framePlayer(canvas, () => Math.round((1 - progress) * (HEAD_FRAME_COUNT - 1))); // 87 → 1
+
+  // About a screen before the section arrives, start decoding the frames it opens on.
+  ScrollTrigger.create({
+    trigger: section,
+    start: () => `top bottom+=${window.innerHeight}`,
+    end: TURN_END,
+    onToggle: (self) => {
+      // Only prepare the frames here; they are drawn (cheaply) as each one is ready.
+      if (self.isActive) player.focus();
+    },
+  });
 
   ScrollTrigger.create({
     trigger: section,
@@ -53,7 +41,8 @@ export function initContact(): void {
     scrub: true,
     onUpdate: (self) => {
       progress = self.progress;
-      draw();
+      player.focus();
+      player.draw();
     },
   });
 

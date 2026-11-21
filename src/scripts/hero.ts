@@ -9,9 +9,9 @@
  */
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { headFrames, HEAD_FRAME_COUNT } from './head-frames';
+import { HEAD_FRAME_COUNT } from './head-frames';
 import { EASE, prefersMotion } from './motion';
-import { drawFrame, nearestReady, sizeCanvas } from './frame-draw';
+import { framePlayer } from './frame-draw';
 
 const PIN_DISTANCE = 2000; // px of scroll
 const COPY_FADE_END = 0.3; // headline gone by 30%
@@ -23,36 +23,10 @@ export function initHero(): void {
   if (!section || !canvas || !copy || !prefersMotion()) return;
 
   gsap.registerPlugin(ScrollTrigger);
-  const ctx = canvas.getContext('2d')!;
-  const images = headFrames();
   const state = { progress: 0 };
-
-  let drawnImg: HTMLImageElement | null = null;
-  const draw = (force = false) => {
-    const frame = Math.round(state.progress * (HEAD_FRAME_COUNT - 1));
-    const img = nearestReady(images, frame);
-    if (!img || (!force && img === drawnImg)) return;
-    drawnImg = img;
-    drawFrame(canvas, ctx, img);
-  };
-
-  const resize = () => {
-    sizeCanvas(canvas);
-    draw(true);
-  };
-  new ResizeObserver(resize).observe(canvas);
-
-  // Redraw as frames arrive (the first frame may land after the first resize).
-  // A frame just arrived: redraw only if it is closer to the wanted frame than the one shown
-  // (avoids ~87 full-canvas redraws while the sequence loads).
-  images.forEach((img, i) =>
-    img.addEventListener('load', () => {
-      const want = Math.round(state.progress * (HEAD_FRAME_COUNT - 1));
-      const shown = drawnImg ? images.indexOf(drawnImg) : -1;
-      if (shown < 0 || Math.abs(i - want) < Math.abs(shown - want)) draw(true);
-    }),
-  );
-  resize();
+  const player = framePlayer(canvas, () => Math.round(state.progress * (HEAD_FRAME_COUNT - 1)));
+  player.focus(); // decode the first frames now (they are loaded during the preloader)
+  player.draw(true);
 
   const tl = gsap.timeline({
     scrollTrigger: {
@@ -64,7 +38,8 @@ export function initHero(): void {
       anticipatePin: 1,
       onUpdate: (self) => {
         state.progress = self.progress;
-        draw();
+        player.focus();
+        player.draw();
       },
     },
   });

@@ -219,3 +219,26 @@
     visibility: hidden;
   }
 }
+
+/* Elements that move continuously with scroll get their own GPU layer up front, so moving
+   them never repaints them (motion-enabled visitors only). */
+.js-motion [data-day-track],
+.js-motion [data-stable-gallery] [data-depth] {
+  will-change: transform;
+}
+
+/* Section 03 ground: tick marks drift right → left, one tick (48px, see .ground) per loop
+   so it repeats seamlessly. Runs on the GPU; scripts/lessons.ts switches it on only while
+   the section is on screen. Not used with reduced motion. */
+.ground-drift {
+  animation: ground-drift 1.6s linear infinite paused;
+  will-change: transform;
+}
+.ground-drift.is-walking {
+  animation-play-state: running;
+}
+@keyframes ground-drift {
+  to {
+    transform: translateX(-48px);
+  }
+}

@@ -10,8 +10,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { EASE } from './motion';
 
-const TICK = 48; // px between tick marks (matches .ground in global.css)
-const GROUND_SECONDS_PER_TICK = 1.6; // slow, calm drift
 const SCROLL_PER_LEVEL = 0.75; // screens of scroll per level while pinned
 
 export function initLessons(): void {
@@ -54,16 +52,12 @@ export function initLessons(): void {
     whileVisible((on) => (on ? play() : video.pause()));
   }
 
-  // ---------- Ground: endless right → left drift (one tick per loop = seamless) ----------
+  // ---------- Ground: endless right → left drift ----------
+  // A CSS animation (global.css, `.ground-drift`): it runs on the GPU with no per-frame
+  // JavaScript. Here it is only switched on while the section is on screen.
   if (ground) {
-    const drift = gsap.to(ground, {
-      x: -TICK,
-      duration: GROUND_SECONDS_PER_TICK,
-      ease: 'none',
-      repeat: -1,
-      paused: true,
-    });
-    whileVisible((on) => (on ? drift.play() : drift.pause()));
+    ground.classList.add('ground-drift');
+    whileVisible((on) => ground.classList.toggle('is-walking', on));
   }
 
   // ---------- Desktop: pin + levels one at a time ----------

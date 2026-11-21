@@ -4,13 +4,20 @@
  * the hero canvas draws them. The rest load in the background straight after.
  */
 export const HEAD_FRAME_COUNT = 87;
-/** Frames loaded before the preloader ends (covers the mouse glance range 1–12 almost fully). */
+/** Frames loaded before the preloader ends; the rest load in the background. */
 export const FIRST_BATCH = 10;
 
 let images: HTMLImageElement[] | null = null;
 
+const small = () => matchMedia('(max-width: 767px)').matches;
+
+/** Pixel size of the frame files in use (desktop or mobile set). */
+export function headFrameSize(): { width: number; height: number } {
+  return small() ? { width: 1200, height: 675 } : { width: 1920, height: 1080 };
+}
+
 export function headFramePaths(): string[] {
-  const dir = matchMedia('(max-width: 767px)').matches ? 'head-mobile' : 'head';
+  const dir = small() ? 'head-mobile' : 'head';
   return Array.from(
     { length: HEAD_FRAME_COUNT },
     (_, i) => `/frames/${dir}/${String(i + 1).padStart(3, '0')}.webp`,

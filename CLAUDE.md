@@ -39,6 +39,7 @@ looks like he is walking through the section. A small counter shows 01 / 04.
 - `public/frames/head-mobile/001–087.webp` — same, 1200px, for screens under 768px.
 - `public/video/idle.mp4` — NOT used: the hero must stay still until the visitor scrolls.
 - Frame loading: frames 1–10 load before the preloader ends, 11–87 in the background (`src/scripts/head-frames.ts`).
+- Frame drawing (performance): never `drawImage` an `<img>` per scroll frame (it decodes/scales on the main thread → stutter). Both canvases use `framePlayer` (`src/scripts/frame-draw.ts`): a worker (`frame-worker.ts`) fetches, decodes, scales and blends frames near the current one (`frame-cache.ts`, memory-budgeted window), and the page only copies them 1:1. Canvas resolution is capped at the frames' own resolution.
 - `public/video/walk.mp4` (+ poster) — 9s seamless walk loop, side view, horse walks in place. The ONLY gait clip: there will be no trot, canter or gallop videos.
 - `public/images/hero-still.jpg` — reduced-motion fallback for the hero.
 - `public/images/horses/` — SAMPLE AI-generated portraits (one per horse, originals in `raw/images/horses/`); web versions made by `npm run images`. Replace with real photos before launch.
