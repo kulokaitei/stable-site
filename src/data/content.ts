@@ -224,16 +224,53 @@ export const horses = {
   title: { before: 'Meet', accent: 'the', after: 'herd' },
   intro:
     'Every horse at Ashgrove has a job they love and a rider level they suit. Here are a few of the faces you will meet.',
-  // SAMPLE names. Portraits: every horse uses hero-still.jpg as a PLACEHOLDER until real
-  // photos exist — then set `portrait` to e.g. '/images/horses/luna.jpg' and update `portraitAlt`.
+  // SAMPLE horses (names, details, descriptions) for the fictional stable.
+  // Portraits: AI-generated sample images (Figma file "Ashgrove Stables — horse portraits").
+  // Put the PNGs in raw/images/horses/<slug>.png and run `npm run images`; until a portrait
+  // file exists, set `portrait` to null and the row shows the description only.
   list: [
-    { name: 'Luna', detail: 'Hanoverian mare · 11 · Dressage', portrait: '/images/hero-still.jpg', portraitAlt: 'Placeholder portrait for Luna: a dark bay horse with a white blaze.' },
-    { name: 'Atlas', detail: 'Dutch Warmblood gelding · 12 · Jumping', portrait: '/images/hero-still.jpg', portraitAlt: 'Placeholder portrait for Atlas: a dark bay horse with a white blaze.' },
-    { name: 'Vėjas', detail: 'Žemaitukas gelding · 16 · First lessons', portrait: '/images/hero-still.jpg', portraitAlt: 'Placeholder portrait for Vėjas: a dark bay horse with a white blaze.' },
-    { name: 'Mira', detail: 'Connemara pony · 9 · Young riders', portrait: '/images/hero-still.jpg', portraitAlt: 'Placeholder portrait for Mira: a dark bay horse with a white blaze.' },
-    { name: 'Bruno', detail: 'Trakehner gelding · 14 · Trail rides', portrait: '/images/hero-still.jpg', portraitAlt: 'Placeholder portrait for Bruno: a dark bay horse with a white blaze.' },
+    {
+      name: 'Luna',
+      slug: 'luna',
+      detail: 'Hanoverian mare · 11 · Dressage',
+      description: 'Our dressage schoolmistress: light in the hand, tuned to the seat and endlessly patient while riders find the right aids. She rewards quiet, precise riding.',
+      portrait: null as string | null,
+      portraitAlt: 'Luna, a chestnut Hanoverian mare with a small white star, in a dark leather halter.',
+    },
+    {
+      name: 'Atlas',
+      slug: 'atlas',
+      detail: 'Dutch Warmblood gelding · 12 · Jumping',
+      description: 'Atlas loves a course of fences. Bold, scopey and honest to every jump, he teaches riders to keep a steady rhythm and trust the distance.',
+      portrait: null as string | null,
+      portraitAlt: 'Atlas, a near-black Dutch Warmblood gelding with a strong arched neck.',
+    },
+    {
+      name: 'Vėjas',
+      slug: 'vejas',
+      detail: 'Žemaitukas gelding · 16 · First lessons',
+      description: 'A Žemaitukas, one of Lithuania’s oldest horse breeds. Sure-footed and unflappable, he has carried more first-time riders around the arena than anyone can count.',
+      portrait: null as string | null,
+      portraitAlt: 'Vėjas, a small mouse-dun Žemaitukas gelding with a dark mane.',
+    },
+    {
+      name: 'Mira',
+      slug: 'mira',
+      detail: 'Connemara pony · 9 · Young riders',
+      description: 'Small enough for young riders and clever enough to keep them interested. Kind on the ground, keen on the trails, and very fond of carrots.',
+      portrait: null as string | null,
+      portraitAlt: 'Mira, a dapple-grey Connemara pony with a gentle eye.',
+    },
+    {
+      name: 'Bruno',
+      slug: 'bruno',
+      detail: 'Trakehner gelding · 14 · Trail rides',
+      description: 'The steady leader on forest rides: calm in the woods, unbothered by deer or puddles, and happiest at a long, swinging walk.',
+      portrait: null as string | null,
+      portraitAlt: 'Bruno, a liver chestnut Trakehner gelding with a refined head.',
+    },
   ],
-  portraitSize: { width: 1200, height: 1800 },
+  portraitSize: { width: 1024, height: 1280 },
 };
 
 export const contact = {
