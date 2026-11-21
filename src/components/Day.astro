@@ -9,6 +9,7 @@
 import { day } from '../data/content';
 import SectionMeta from './SectionMeta.astro';
 import Title from './Title.astro';
+import Numeral from './Numeral.astro';
 import Photo from './Photo.astro';
 const n = day.entries.length;
 ---
@@ -17,9 +18,10 @@ const n = day.entries.length;
   aria-labelledby="day-title"
   data-section="04"
   data-day
-  class="py-24 md:py-40 pinned:flex pinned:h-svh pinned:min-h-[600px] pinned:flex-col pinned:py-0 pinned:pb-10 pinned:pt-28"
+  class="relative isolate py-24 md:py-40 pinned:flex pinned:h-svh pinned:min-h-[600px] pinned:flex-col pinned:py-0 pinned:pb-10 pinned:pt-28"
   style="--ph: clamp(180px, 34svh, 420px)"
 >
+  <Numeral n={day.number} />
   <div class="mx-auto w-full max-w-[1600px] px-5 md:px-10">
     <SectionMeta number={day.number} label={day.label} />
     <Title id="day-title" title={day.title} class="mt-12 max-w-[14ch] text-5xl md:mt-20 md:text-7xl pinned:mt-8 pinned:max-w-none pinned:text-6xl" />
@@ -41,7 +43,7 @@ const n = day.entries.length;
             <h3 class="label text-accent">{entry.title}</h3>
           </div>
           <p class="mt-4 text-muted">{entry.body}</p>
-          <div class="mt-6 aspect-[3/2] overflow-hidden pinned:h-[var(--ph)]">
+          <div class="mt-6 aspect-[3/2] overflow-hidden pinned:h-[var(--ph)]" data-lean>
             <Photo
               src={entry.image.src}
               alt={entry.image.alt}
@@ -49,6 +51,7 @@ const n = day.entries.length;
               height={entry.image.height}
               sizes="(min-width: 1024px) 52svh, (min-width: 768px) 44vw, (min-width: 640px) 56vw, 78vw"
               class:list={['h-full w-full object-cover', entry.darken && 'img-darken']}
+              data-day-photo
             />
           </div>
         </li>

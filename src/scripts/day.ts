@@ -21,6 +21,24 @@ export function initDay(motion: boolean): void {
   const dotsOn = dots.map((d) => d.querySelector<HTMLElement>('[data-day-dot-on]')!);
 
   const maxShift = () => Math.max(0, track.scrollWidth - viewport.clientWidth);
+  const photos = panels.map((p) => p.querySelector<HTMLElement>('[data-day-photo]')?.closest('[data-lean]') ?? null);
+
+  // Curved rail: the panel in the middle faces you; panels towards the edges turn slightly
+  // away in 3D, shrink a little and their photos fade. Positions are computed from cached offsets — no
+  // layout reads while scrolling.
+  let centers: number[] = [];
+  let shiftX = 0;
+  const rail = () => {
+    if (!motion) return;
+    const half = viewport.clientWidth / 2 || 1;
+    panels.forEach((panel, i) => {
+      const d = gsap.utils.clamp(-1.6, 1.6, (centers[i] + shiftX - half) / half);
+      const a = Math.min(Math.abs(d), 1);
+      gsap.set(panel, { transformPerspective: 1600, rotationY: d * 14, scale: 1 - a * 0.08 });
+      // Only the photo fades — the time and text stay fully legible (contrast).
+      if (photos[i]) gsap.set(photos[i], { opacity: 1 - a * 0.5 });
+    });
+  };
 
   // Progress (0–1) at which each panel's centre sits in the middle of the viewport.
   let marks: number[] = [];
@@ -30,6 +48,8 @@ export function initDay(motion: boolean): void {
       gsap.utils.clamp(0, 1, (p.offsetLeft + p.offsetWidth / 2 - viewport.clientWidth / 2) / max),
     );
     marks[marks.length - 1] = 1; // the last time lights up at the very end
+    centers = panels.map((p) => p.offsetLeft + p.offsetWidth / 2);
+    rail();
   };
 
   // Scroll progress → bar position, so that progress marks[i] lands on dot i (at i / (n - 1)).
@@ -61,7 +81,12 @@ export function initDay(motion: boolean): void {
   let native = true;
   viewport.addEventListener(
     'scroll',
-    () => native && setProgress(maxShift() ? viewport.scrollLeft / maxShift() : 0),
+    () => {
+      if (!native) return;
+      setProgress(maxShift() ? viewport.scrollLeft / maxShift() : 0);
+      shiftX = -viewport.scrollLeft;
+      rail();
+    },
     { passive: true },
   );
   measure();
@@ -90,7 +115,11 @@ export function initDay(motion: boolean): void {
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onRefresh: measure,
-        onUpdate: (self) => setProgress(self.progress),
+        onUpdate: (self) => {
+          setProgress(self.progress);
+          shiftX = -maxShift() * self.progress;
+          rail();
+        },
       },
     });
     return () => {

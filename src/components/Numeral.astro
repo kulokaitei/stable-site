@@ -1,0 +1,10 @@
+---
+/** Huge, faint section number drifting behind a section (scripts/transitions.ts). Decorative. */
+interface Props {
+  n: string;
+}
+const { n } = Astro.props;
+---
+<div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+  <span class="numeral display absolute right-[-2vw] top-[4%] block select-none leading-none" data-numeral>{n}</span>
+</div>

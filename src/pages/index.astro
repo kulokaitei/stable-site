@@ -14,12 +14,14 @@ import Footer from '../components/Footer.astro';
   <Preloader />
   <Header />
   <main id="main" tabindex="-1">
-    <Hero />
-    <Stable />
-    <Lessons />
-    <Day />
-    <Horses />
-    <Contact />
+    <!-- Each section sits on its own "stage": as the next one rises over it, it shrinks,
+         dims and falls behind (scripts/transitions.ts). -->
+    <div class="stage" style="z-index: 1" data-stage><Hero /></div>
+    <div class="stage" style="z-index: 2" data-stage><Stable /></div>
+    <div class="stage" style="z-index: 3" data-stage><Lessons /></div>
+    <div class="stage" style="z-index: 4" data-stage><Day /></div>
+    <div class="stage" style="z-index: 5" data-stage><Horses /></div>
+    <div class="stage" style="z-index: 6" data-stage><Contact /></div>
   </main>
   <Footer />
 </Base>

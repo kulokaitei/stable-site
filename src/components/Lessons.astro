@@ -9,9 +9,11 @@
 import { lessons } from '../data/content';
 import SectionMeta from './SectionMeta.astro';
 import Title from './Title.astro';
+import Numeral from './Numeral.astro';
 const total = String(lessons.levels.length).padStart(2, '0');
 ---
-<section id="lessons" aria-labelledby="lessons-title" data-section="03" data-lessons class="relative py-24 md:py-40 pinned:flex pinned:h-svh pinned:min-h-[640px] pinned:flex-col pinned:py-0 pinned:pb-10 pinned:pt-28">
+<section id="lessons" aria-labelledby="lessons-title" data-section="03" data-lessons class="relative isolate py-24 md:py-40 pinned:flex pinned:h-svh pinned:min-h-[640px] pinned:flex-col pinned:py-0 pinned:pb-10 pinned:pt-28">
+  <Numeral n={lessons.number} />
   <div class="mx-auto w-full max-w-[1600px] px-5 md:px-10 pinned:flex pinned:flex-1 pinned:flex-col">
     <SectionMeta number={lessons.number} label={lessons.label} />
 

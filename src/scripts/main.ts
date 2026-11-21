@@ -12,6 +12,7 @@ import { initLessons } from './lessons';
 import { initDay } from './day';
 import { initHorses } from './horses';
 import { initContact } from './contact';
+import { initTransitions } from './transitions';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 ScrollTrigger.config({ ignoreMobileResize: true });
@@ -64,6 +65,7 @@ async function main() {
     lenis.start();
     ScrollTrigger.sort(); // triggers come from several scripts; keep them in page order around the hero pin
     ScrollTrigger.refresh();
+    initTransitions(); // after all pins exist and are measured; set up in small idle tasks
   });
 }
 

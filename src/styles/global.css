@@ -223,7 +223,10 @@
 /* Elements that move continuously with scroll get their own GPU layer up front, so moving
    them never repaints them (motion-enabled visitors only). */
 .js-motion [data-day-track],
-.js-motion [data-stable-gallery] [data-depth] {
+.js-motion [data-stable-gallery] [data-depth],
+.js-motion [data-stable-gallery] img,
+.js-motion [data-day-panel],
+.js-motion [data-lean] {
   will-change: transform;
 }
 
@@ -241,4 +244,22 @@
   to {
     transform: translateX(-48px);
   }
+}
+
+/* ---------- Scroll transitions (scripts/transitions.ts) ---------- */
+
+/* Each section sits on an opaque "stage"; later stages cover earlier ones as they rise. */
+.stage {
+  position: relative;
+  background: var(--color-bg);
+}
+
+/* Huge faint section numerals drifting behind sections 02–05 */
+.numeral {
+  font-size: clamp(14rem, 36vw, 42rem);
+  color: rgb(237 230 218 / 0.035);
+}
+.js-motion .numeral {
+  opacity: 0; /* faded in as the section arrives */
+  will-change: transform, opacity;
 }
