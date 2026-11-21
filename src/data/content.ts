@@ -12,12 +12,12 @@ export const site = {
 };
 
 export const seo = {
-  title: 'Ashgrove Stables — Riding Lessons, Training & Livery near Vilnius',
+  title: 'Ashgrove Stables — Riding Lessons & Livery near Vilnius',
   description:
-    'Riding lessons for all ages, horse training and full livery in the countryside 20 minutes from Vilnius. Calm horses, small groups, experienced coaches. Book a first lesson.',
+    'Riding lessons for all ages, horse training and full livery 20 minutes from Vilnius. Calm horses, small groups, experienced coaches. Book a first lesson.',
   image: {
     src: '/og-image.jpg',
-    alt: 'A dark bay horse with a white blaze looking straight at the camera on a black background.',
+    alt: 'Ashgrove Stables — equestrian centre near Vilnius. A dark bay horse with a white blaze looks straight at the camera.',
   },
   // Used for Google's business listing data (structured data). SAMPLE values.
   business: {

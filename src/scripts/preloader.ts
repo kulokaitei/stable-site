@@ -9,7 +9,7 @@ import { EASE } from './motion';
 import { headFrames, whenLoaded, FIRST_BATCH } from './head-frames';
 
 const TRACK_WIDTH = 200; // px, matches the markup
-const MIN_TIME = 900; // ms — never flash
+const MIN_TIME = 600; // ms — never flash
 const MAX_TIME = 8000; // ms — never trap the visitor on a slow connection
 
 const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
@@ -56,7 +56,7 @@ export async function runPreloader(onReveal: () => void): Promise<void> {
   const tl = gsap.timeline({ onComplete: () => root.remove() });
   tl.to(ui, { opacity: 0, y: -8, duration: 0.8, ease: EASE })
     .to(name, { yPercent: -60, opacity: 0, duration: 1.2, ease: EASE }, 0)
-    .add(onReveal, 0.5)
-    .to(root, { opacity: 0, duration: 1.2, ease: EASE }, 0.5);
+    .add(onReveal, 0.3)
+    .to(root, { opacity: 0, duration: 1.2, ease: EASE }, 0.3);
   await tl;
 }

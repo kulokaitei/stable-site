@@ -36,7 +36,15 @@ export function initContact(): void {
     sizeCanvas(canvas);
     draw(true);
   }).observe(canvas);
-  images.forEach((img) => img.addEventListener('load', () => draw(true)));
+  // A frame just arrived: redraw only if it is closer to the wanted frame than the one shown
+  // (avoids ~87 full-canvas redraws while the sequence loads).
+  images.forEach((img, i) =>
+    img.addEventListener('load', () => {
+      const want = Math.round((1 - progress) * (HEAD_FRAME_COUNT - 1));
+      const shown = drawnImg ? images.indexOf(drawnImg) : -1;
+      if (shown < 0 || Math.abs(i - want) < Math.abs(shown - want)) draw(true);
+    }),
+  );
 
   ScrollTrigger.create({
     trigger: section,

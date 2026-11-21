@@ -2,6 +2,10 @@
 import 'lenis/dist/lenis.css';
 import '../styles/global.css';
 import { site, seo } from '../data/content';
+import cormorant300 from '@fontsource/cormorant-garamond/files/cormorant-garamond-latin-300-normal.woff2?url';
+import cormorant300i from '@fontsource/cormorant-garamond/files/cormorant-garamond-latin-300-italic.woff2?url';
+import manrope400 from '@fontsource/manrope/files/manrope-latin-400-normal.woff2?url';
+import manrope500 from '@fontsource/manrope/files/manrope-latin-500-normal.woff2?url';
 
 interface Props {
   /** Page title. Defaults to the home page title. */
@@ -34,6 +38,7 @@ const jsonLd = {
   description: seo.description,
   url: new URL('/', Astro.site).href,
   image: ogImage.href,
+  logo: new URL('/icon-512.png', Astro.site).href,
   email: seo.business.email,
   telephone: seo.business.telephone,
   priceRange: seo.business.priceRange,
@@ -65,6 +70,11 @@ const jsonLd = {
     <meta name="robots" content={noindex ? 'noindex' : 'index, follow, max-image-preview:large'} />
     <meta name="theme-color" content="#050404" />
     <meta name="color-scheme" content="dark" />
+    <!-- Fonts used above the fold: fetched early so text doesn't swap and shift after first paint -->
+    <link rel="preload" as="font" type="font/woff2" href={cormorant300} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={cormorant300i} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={manrope400} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={manrope500} crossorigin />
     <script is:inline>
       // Motion-enabled visitors get the preloader and reveals; everyone else sees the page as-is.
       if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-motion');
@@ -95,8 +105,8 @@ const jsonLd = {
 
     {preloadHero && (
       <>
-        <link rel="preload" as="image" href="/frames/head/001.webp" media="(min-width: 768px)" fetchpriority="high" />
-        <link rel="preload" as="image" href="/frames/head-mobile/001.webp" media="(max-width: 767px)" fetchpriority="high" />
+        <link rel="preload" as="image" href="/frames/head/001.webp" media="(min-width: 768px) and (prefers-reduced-motion: no-preference)" fetchpriority="high" />
+        <link rel="preload" as="image" href="/frames/head-mobile/001.webp" media="(max-width: 767px) and (prefers-reduced-motion: no-preference)" fetchpriority="high" />
       </>
     )}
 

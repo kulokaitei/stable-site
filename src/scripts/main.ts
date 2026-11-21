@@ -20,6 +20,13 @@ ScrollTrigger.config({ ignoreMobileResize: true });
 document.querySelectorAll('header details a').forEach((a) =>
   a.addEventListener('click', () => a.closest('details')?.removeAttribute('open')),
 );
+// Escape closes the mobile menu and returns focus to its button.
+document.addEventListener('keydown', (e) => {
+  const menu = document.querySelector<HTMLDetailsElement>('header details[open]');
+  if (e.key !== 'Escape' || !menu) return;
+  menu.removeAttribute('open');
+  menu.querySelector('summary')?.focus();
+});
 
 async function main() {
   const motion = prefersMotion();

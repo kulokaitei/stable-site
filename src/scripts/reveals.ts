@@ -26,6 +26,8 @@ export function heroIntro(): gsap.core.Timeline {
   const hero = document.getElementById('top');
   if (!hero) return tl; // pages without the hero (privacy, 404)
   const h1 = hero.querySelector<HTMLElement>('[data-split]');
+  const copy = hero.querySelector<HTMLElement>('[data-hero-copy]');
+  if (copy) tl.set(copy, { visibility: 'visible', animation: 'none' }, 0); // hidden by CSS until now
 
   tl.from('[data-hero-media]', { scale: 1.06, duration: 1.4, ease: EASE }, 0)
     .from(hero.querySelectorAll('.label'), { opacity: 0, duration: 1, ease: EASE, stagger: 0.1 }, 0.3)

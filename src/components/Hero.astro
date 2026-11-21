@@ -5,19 +5,25 @@
  */
 import { hero } from '../data/content';
 import Title from './Title.astro';
+import { webpSrcset } from '../data/images';
 ---
 <section id="top" aria-labelledby="hero-title" data-section="01" data-hero class="relative isolate flex h-svh min-h-[560px] flex-col justify-end overflow-hidden">
   <div class="absolute inset-0 -z-10 bg-bg" data-hero-media>
     <canvas class="motion-only absolute inset-0 h-full w-full" data-head-canvas role="img" aria-label={hero.media.alt}></canvas>
-    <img
-      class="still-only h-full w-full object-cover object-top"
-      src={hero.media.still}
-      alt={hero.media.alt}
-      width="1200"
-      height="1800"
-      decoding="async"
-      fetchpriority="high"
-    />
+    <!-- Reduced-motion still. With motion on, the <source> below matches and serves a 1×1 pixel,
+         so the 190 KB photo is only downloaded by visitors who actually see it. -->
+    <picture class="still-only block h-full w-full">
+      <source media="(prefers-reduced-motion: no-preference)" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
+      <source type="image/webp" srcset={webpSrcset(hero.media.still)!} sizes="100vw" />
+      <img
+        class="h-full w-full object-cover object-top"
+        src={hero.media.still}
+        alt={hero.media.alt}
+        width="1200"
+        height="1800"
+        decoding="async"
+      />
+    </picture>
     <div class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-bg via-bg/60 to-transparent" aria-hidden="true"></div>
   </div>
 

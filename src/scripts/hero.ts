@@ -42,7 +42,15 @@ export function initHero(): void {
   new ResizeObserver(resize).observe(canvas);
 
   // Redraw as frames arrive (the first frame may land after the first resize).
-  images.forEach((img) => img.addEventListener('load', () => draw(true)));
+  // A frame just arrived: redraw only if it is closer to the wanted frame than the one shown
+  // (avoids ~87 full-canvas redraws while the sequence loads).
+  images.forEach((img, i) =>
+    img.addEventListener('load', () => {
+      const want = Math.round(state.progress * (HEAD_FRAME_COUNT - 1));
+      const shown = drawnImg ? images.indexOf(drawnImg) : -1;
+      if (shown < 0 || Math.abs(i - want) < Math.abs(shown - want)) draw(true);
+    }),
+  );
   resize();
 
   const tl = gsap.timeline({
