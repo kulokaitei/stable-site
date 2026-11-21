@@ -66,6 +66,12 @@ export const hero = {
     'Riding lessons, training and livery in the countryside outside Vilnius — for first-timers, returning riders and everyone in between.',
   cta: { label: 'Book a lesson', href: '#contact' },
   scrollHint: 'Scroll',
+  // Shown one after another while the head turns (condensed from the section 02 copy).
+  captions: [
+    { label: 'The place', before: 'At the edge of a', accent: 'pine forest', after: ', twenty minutes from Vilnius.' },
+    { label: 'The horses', before: 'Out in the paddocks', accent: 'every day', after: ', hay around the clock.' },
+    { label: 'The idea', before: 'Happy horses make', accent: 'confident', after: ' riders.' },
+  ],
   media: {
     still: '/images/hero-still.jpg',
     alt: 'A dark bay horse with a white blaze looks straight at you, then turns his head to the side as you scroll.',
