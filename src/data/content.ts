@@ -233,7 +233,7 @@ export const horses = {
 export const contact = {
   number: '06',
   label: 'Contact',
-  title: { before: 'Come and', accent: 'meet', after: 'us' },
+  title: { before: 'Come and', accent: 'meet', after: 'him.' },
   intro:
     'Book a first lesson, ask about livery, or just come and look around. We will put the kettle on and introduce you to the horses.',
   head: {
@@ -242,16 +242,17 @@ export const contact = {
     mobile: '/frames/head-mobile/001.webp',
     width: 1920,
     height: 1080,
-    alt: 'The dark bay horse facing you again.',
+    alt: 'The dark bay horse turns his head back to face you.',
   },
   // SAMPLE contact details.
   details: [
     { label: 'Address', value: 'Ashgrove farm, Vilnius district' },
-    { label: 'Phone', value: '+370 612 34567', href: null as string | null },
-    { label: 'Email', value: 'hello@ashgrovestables.lt', href: null as string | null },
+    { label: 'Phone', value: '+370 612 34567', href: 'tel:+37061234567' as string | null },
+    { label: 'Email', value: 'hello@ashgrovestables.lt', href: 'mailto:hello@ashgrovestables.lt' as string | null },
     { label: 'Hours', value: 'Tue–Fri 8:00–20:00 · Sat–Sun 8:00–18:00' },
   ],
-  cta: { label: 'Get in touch', href: '#contact-details' },
+  // SAMPLE: points at the sample email until a real booking link exists.
+  cta: { label: 'Book a visit', href: 'mailto:hello@ashgrovestables.lt?subject=Booking%20a%20visit' },
 };
 
 export const footer = {

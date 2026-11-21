@@ -11,6 +11,7 @@ import { initStable } from './stable';
 import { initLessons } from './lessons';
 import { initDay } from './day';
 import { initHorses } from './horses';
+import { initContact } from './contact';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 ScrollTrigger.config({ ignoreMobileResize: true });
@@ -43,6 +44,7 @@ async function main() {
   initLessons(); // pins are created before the reveals so positions below them are correct
   initDay(true);
   initHorses(true);
+  initContact();
   lenis.stop();
 
   await document.fonts.ready; // split lines with the real font metrics

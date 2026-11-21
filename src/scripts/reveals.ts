@@ -45,7 +45,8 @@ export function heroIntro(): gsap.core.Timeline {
 /** Scroll-triggered reveals for everything below the hero. */
 export function initScrollReveals(): void {
   const hero = document.getElementById('top');
-  const outsideHero = (el: Element) => !hero?.contains(el);
+  // The hero and sections marked data-own-reveal (contact) time their own reveals.
+  const outsideHero = (el: Element) => !hero?.contains(el) && !el.closest('[data-own-reveal]');
 
   // Headings, line by line
   gsap.utils
