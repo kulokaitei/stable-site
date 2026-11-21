@@ -1,6 +1,6 @@
 ---
 /**
- * 01 — Hero. Idle loop at rest; pinned scroll turns the head (canvas frame sequence).
+ * 01 — Hero. Still on frame 1 until you scroll; pinned scroll turns the head (canvas frame sequence).
  * Behaviour lives in src/scripts/hero.ts. Reduced motion: hero-still.jpg, no pin.
  */
 import { hero } from '../data/content';
@@ -8,19 +8,7 @@ import Title from './Title.astro';
 ---
 <section id="top" aria-labelledby="hero-title" data-section="01" data-hero class="relative isolate flex h-svh min-h-[560px] flex-col justify-end overflow-hidden">
   <div class="absolute inset-0 -z-10 bg-bg" data-hero-media>
-    <canvas class="motion-only absolute inset-0 h-full w-full" style="opacity: 0" data-head-canvas role="img" aria-label={hero.media.alt}></canvas>
-    <video
-      class="blend-bg motion-only absolute inset-0 h-full w-full object-cover"
-      src={hero.media.idleVideo}
-      poster={hero.media.idlePoster}
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="auto"
-      aria-hidden="true"
-      data-hero-video
-    ></video>
+    <canvas class="motion-only absolute inset-0 h-full w-full" data-head-canvas role="img" aria-label={hero.media.alt}></canvas>
     <img
       class="still-only h-full w-full object-cover object-top"
       src={hero.media.still}
