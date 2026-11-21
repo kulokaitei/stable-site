@@ -26,6 +26,8 @@ export function heroIntro(): gsap.core.Timeline {
   const hero = document.getElementById('top');
   if (!hero) return tl; // pages without the hero (privacy, 404)
   const h1 = hero.querySelector<HTMLElement>('[data-split]');
+  const copy = hero.querySelector<HTMLElement>('[data-hero-copy]');
+  if (copy) tl.set(copy, { visibility: 'visible', animation: 'none' }, 0); // hidden by CSS until now
 
   tl.from('[data-hero-media]', { scale: 1.06, duration: 1.4, ease: EASE }, 0)
     .from(hero.querySelectorAll('.label'), { opacity: 0, duration: 1, ease: EASE, stagger: 0.1 }, 0.3)
@@ -45,7 +47,8 @@ export function heroIntro(): gsap.core.Timeline {
 /** Scroll-triggered reveals for everything below the hero. */
 export function initScrollReveals(): void {
   const hero = document.getElementById('top');
-  const outsideHero = (el: Element) => !hero?.contains(el);
+  // The hero and sections marked data-own-reveal (contact) time their own reveals.
+  const outsideHero = (el: Element) => !hero?.contains(el) && !el.closest('[data-own-reveal]');
 
   // Headings, line by line
   gsap.utils

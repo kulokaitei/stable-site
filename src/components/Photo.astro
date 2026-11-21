@@ -1,0 +1,24 @@
+---
+/**
+ * A photo served as responsive WebP (with the original JPG as fallback).
+ * `sizes` tells the browser how wide the photo is shown, so it picks the right file.
+ */
+import { webpSrcset } from '../data/images';
+
+interface Props {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  sizes: string;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  [attr: `data-${string}`]: unknown;
+}
+const { src, alt, width, height, sizes, class: className, loading = 'lazy', ...rest } = Astro.props;
+const srcset = webpSrcset(src);
+---
+<picture class="contents">
+  {srcset && <source type="image/webp" srcset={srcset} sizes={sizes} />}
+  <img src={src} alt={alt} width={width} height={height} loading={loading} decoding="async" class={className} {...rest} />
+</picture>

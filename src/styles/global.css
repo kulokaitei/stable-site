@@ -192,6 +192,18 @@
   margin-right: -0.08em;
 }
 
+/* Hero copy waits for the intro (it is under the preloader anyway). Not painted = no layout
+   shift while fonts load and lines are split. Failsafe if the script never runs. */
+.js-motion [data-hero-copy] {
+  visibility: hidden;
+  animation: reveal-failsafe 0s 10s forwards;
+}
+@keyframes reveal-failsafe {
+  to {
+    visibility: visible;
+  }
+}
+
 /* Preloader: only exists for motion-enabled visitors with JS */
 .preloader {
   display: none;

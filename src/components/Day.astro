@@ -9,6 +9,7 @@
 import { day } from '../data/content';
 import SectionMeta from './SectionMeta.astro';
 import Title from './Title.astro';
+import Photo from './Photo.astro';
 const n = day.entries.length;
 ---
 <section
@@ -41,13 +42,12 @@ const n = day.entries.length;
           </div>
           <p class="mt-4 text-muted">{entry.body}</p>
           <div class="mt-6 aspect-[3/2] overflow-hidden pinned:h-[var(--ph)]">
-            <img
+            <Photo
               src={entry.image.src}
               alt={entry.image.alt}
               width={entry.image.width}
               height={entry.image.height}
-              loading="lazy"
-              decoding="async"
+              sizes="(min-width: 1024px) 52svh, (min-width: 768px) 44vw, (min-width: 640px) 56vw, 78vw"
               class:list={['h-full w-full object-cover', entry.darken && 'img-darken']}
             />
           </div>

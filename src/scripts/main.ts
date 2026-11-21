@@ -11,6 +11,7 @@ import { initStable } from './stable';
 import { initLessons } from './lessons';
 import { initDay } from './day';
 import { initHorses } from './horses';
+import { initContact } from './contact';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 ScrollTrigger.config({ ignoreMobileResize: true });
@@ -19,6 +20,13 @@ ScrollTrigger.config({ ignoreMobileResize: true });
 document.querySelectorAll('header details a').forEach((a) =>
   a.addEventListener('click', () => a.closest('details')?.removeAttribute('open')),
 );
+// Escape closes the mobile menu and returns focus to its button.
+document.addEventListener('keydown', (e) => {
+  const menu = document.querySelector<HTMLDetailsElement>('header details[open]');
+  if (e.key !== 'Escape' || !menu) return;
+  menu.removeAttribute('open');
+  menu.querySelector('summary')?.focus();
+});
 
 async function main() {
   const motion = prefersMotion();
@@ -43,6 +51,7 @@ async function main() {
   initLessons(); // pins are created before the reveals so positions below them are correct
   initDay(true);
   initHorses(true);
+  initContact();
   lenis.stop();
 
   await document.fonts.ready; // split lines with the real font metrics
