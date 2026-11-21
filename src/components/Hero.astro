@@ -1,0 +1,48 @@
+---
+/**
+ * 01 — Hero.
+ * Now: idle breathing loop (poster shown first), still image for reduced motion.
+ * Later: the canvas plays the head-turn sequence (public/frames/head) on scroll.
+ */
+import { hero } from '../data/content';
+import Title from './Title.astro';
+---
+<section id="top" aria-labelledby="hero-title" data-section="01" class="relative isolate flex min-h-svh flex-col justify-end overflow-hidden">
+  <div class="absolute inset-0 -z-10">
+    <video
+      class="motion-only h-full w-full object-cover"
+      src={hero.media.idleVideo}
+      poster={hero.media.idlePoster}
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      aria-label={hero.media.alt}
+    ></video>
+    <!-- Head-turn frame sequence target (drawn by the animation step) -->
+    <canvas class="motion-only absolute inset-0 h-full w-full" data-head-canvas hidden aria-hidden="true"></canvas>
+    <img
+      class="still-only h-full w-full object-cover"
+      src={hero.media.still}
+      alt={hero.media.alt}
+      width="1200"
+      height="1800"
+      loading="lazy"
+      decoding="async"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/30 to-bg/40" aria-hidden="true"></div>
+  </div>
+
+  <div class="mx-auto w-full max-w-[1600px] px-5 pb-10 pt-32 md:px-10 md:pb-14">
+    <p class="label mb-6 text-muted"><span class="text-accent">{hero.number}</span> — {hero.label}</p>
+    <Title as="h1" id="hero-title" title={hero.title} class="max-w-[12ch] text-6xl sm:text-7xl md:text-8xl lg:text-9xl" />
+    <div class="hairline mt-10 flex flex-col gap-8 border-t pt-6 md:flex-row md:items-end md:justify-between">
+      <p class="max-w-md text-base leading-relaxed text-muted">{hero.intro}</p>
+      <div class="flex items-center gap-8">
+        <span class="label text-muted" aria-hidden="true">{hero.scrollHint} ↓</span>
+        <a href={hero.cta.href} class="btn">{hero.cta.label}</a>
+      </div>
+    </div>
+  </div>
+</section>

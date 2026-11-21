@@ -1,0 +1,16 @@
+---
+/**
+ * 00 — Preloader.
+ * Hidden by default so the page works without JavaScript.
+ * The animation step will un-hide it, count up while frames load, then remove it.
+ */
+import { site, preloader } from '../data/content';
+---
+<div id="preloader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-bg" hidden aria-hidden="true">
+  <p class="display text-4xl md:text-6xl">{site.name}</p>
+  <div class="mt-10 flex w-48 items-center gap-4 text-muted">
+    <span class="label">{preloader.label}</span>
+    <span class="hairline h-px flex-1 border-t"></span>
+    <span class="label tabular-nums" data-preloader-count>00</span>
+  </div>
+</div>

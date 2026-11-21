@@ -1,0 +1,47 @@
+---
+/**
+ * 06 — Contact. The head turns back to face you.
+ * Now: frame 001 (facing camera). Later: the sequence plays 087 → 001 on scroll.
+ */
+import { contact } from '../data/content';
+import SectionMeta from './SectionMeta.astro';
+import Title from './Title.astro';
+---
+<section id="contact" aria-labelledby="contact-title" data-section="06" class="relative isolate overflow-hidden py-24 md:py-40">
+  <div class="mx-auto max-w-[1600px] px-5 md:px-10">
+    <SectionMeta number={contact.number} label={contact.label} />
+
+    <div class="mt-12 grid items-center gap-12 md:mt-20 lg:grid-cols-12 lg:gap-10">
+      <div class="lg:col-span-6">
+        <Title id="contact-title" title={contact.title} class="text-6xl md:text-8xl lg:text-9xl" />
+        <p class="mt-8 max-w-md leading-relaxed text-muted">{contact.intro}</p>
+        <a href={contact.cta.href} class="btn mt-10">{contact.cta.label}</a>
+      </div>
+
+      <picture class="block lg:col-span-6">
+        <source media="(max-width: 767px)" srcset={contact.head.mobile} width="720" height="406" />
+        <img
+          src={contact.head.desktop}
+          alt={contact.head.alt}
+          width={contact.head.width}
+          height={contact.head.height}
+          loading="lazy"
+          decoding="async"
+          class="w-full"
+          data-contact-head
+        />
+      </picture>
+    </div>
+
+    <address id="contact-details" class="hairline mt-16 grid gap-8 border-t pt-8 not-italic sm:grid-cols-2 lg:mt-24 lg:grid-cols-4">
+      {contact.details.map((item) => (
+        <div>
+          <p class="label text-muted">{item.label}</p>
+          {'href' in item && item.href
+            ? <a href={item.href} class="mt-3 block text-lg hover:text-accent">{item.value}</a>
+            : <p class="mt-3 text-lg">{item.value}</p>}
+        </div>
+      ))}
+    </address>
+  </div>
+</section>

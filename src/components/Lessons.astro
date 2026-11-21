@@ -1,0 +1,66 @@
+---
+/**
+ * 03 — Lessons.
+ * The walk loop always plays at normal speed. Later the section is pinned and the
+ * four levels show one at a time; the ground line scrolls right → left.
+ */
+import { lessons } from '../data/content';
+import SectionMeta from './SectionMeta.astro';
+import Title from './Title.astro';
+const total = String(lessons.levels.length).padStart(2, '0');
+---
+<section id="lessons" aria-labelledby="lessons-title" data-section="03" class="relative py-24 md:py-40">
+  <div class="mx-auto max-w-[1600px] px-5 md:px-10">
+    <SectionMeta number={lessons.number} label={lessons.label} />
+    <Title id="lessons-title" title={lessons.title} class="mt-12 max-w-[14ch] text-5xl md:mt-20 md:text-7xl lg:text-8xl" />
+
+    <div class="mt-16 grid items-center gap-12 lg:mt-24 lg:grid-cols-12 lg:gap-10">
+      <!-- Horse + ground -->
+      <div class="lg:col-span-7">
+        <div class="relative aspect-video overflow-hidden">
+          <video
+            class="motion-only h-full w-full object-cover"
+            src={lessons.video.src}
+            poster={lessons.video.poster}
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="none"
+            aria-label={lessons.video.alt}
+          ></video>
+          <img
+            class="still-only h-full w-full object-cover"
+            src={lessons.video.poster}
+            alt={lessons.video.alt}
+            width="1280"
+            height="720"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div class="ground mt-2" aria-hidden="true" data-ground></div>
+      </div>
+
+      <!-- Levels -->
+      <div class="lg:col-span-4 lg:col-start-9">
+        <p class="label mb-8 text-muted" aria-hidden="true">
+          <span class="text-ink" data-level-current>01</span> / {total}
+        </p>
+        <ol class="flex flex-col gap-12" data-levels>
+          {lessons.levels.map((level) => (
+            <li class="hairline border-t pt-6" data-level>
+              <p class="label text-accent">{level.number}</p>
+              <h3 class="display mt-4 text-4xl md:text-5xl">{level.title}</h3>
+              <p class="mt-4 leading-relaxed text-muted">{level.body}</p>
+              <ul class="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+                {level.details.map((d) => <li class="label text-muted">{d}</li>)}
+              </ul>
+            </li>
+          ))}
+        </ol>
+        <a href={lessons.cta.href} class="btn mt-12">{lessons.cta.label}</a>
+      </div>
+    </div>
+  </div>
+</section>

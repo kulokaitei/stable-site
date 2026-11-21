@@ -1,0 +1,40 @@
+---
+/** 02 — The stable. The photo gets a parallax in the animation step. */
+import { stable } from '../data/content';
+import SectionMeta from './SectionMeta.astro';
+import Title from './Title.astro';
+---
+<section id="stable" aria-labelledby="stable-title" data-section="02" class="mx-auto max-w-[1600px] px-5 py-24 md:px-10 md:py-40">
+  <SectionMeta number={stable.number} label={stable.label} />
+
+  <div class="mt-12 grid gap-12 md:mt-20 md:grid-cols-12 md:gap-10">
+    <Title id="stable-title" title={stable.title} class="text-5xl md:col-span-7 md:text-7xl lg:text-8xl" />
+    <div class="flex flex-col gap-6 text-base leading-relaxed text-muted md:col-span-4 md:col-start-9 md:pt-4">
+      {stable.body.map((p) => <p>{p}</p>)}
+    </div>
+  </div>
+
+  <figure class="relative mt-16 overflow-hidden md:mt-28">
+    <div class="aspect-[4/5] overflow-hidden sm:aspect-[16/9]">
+      <img
+        src={stable.image.src}
+        alt={stable.image.alt}
+        width={stable.image.width}
+        height={stable.image.height}
+        loading="lazy"
+        decoding="async"
+        class="h-full w-full scale-110 object-cover"
+        data-parallax
+      />
+    </div>
+  </figure>
+
+  <dl class="hairline mt-12 grid grid-cols-3 border-t">
+    {stable.facts.map((fact, i) => (
+      <div class:list={['hairline pt-6', i > 0 && 'border-l pl-5 md:pl-10']}>
+        <dt class="label text-muted">{fact.label}</dt>
+        <dd class="display mt-3 text-4xl md:text-6xl">{fact.value}</dd>
+      </div>
+    ))}
+  </dl>
+</section>

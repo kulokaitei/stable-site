@@ -1,0 +1,15 @@
+---
+/** Numbered section label: "02 — The stable" with a hairline. */
+import { sectionCount } from '../data/content';
+
+interface Props {
+  number: string;
+  label: string;
+}
+const { number, label } = Astro.props;
+const total = String(sectionCount).padStart(2, '0');
+---
+<div class="hairline flex items-center justify-between gap-6 border-t pt-4 text-muted">
+  <p class="label"><span class="text-accent">{number}</span><span aria-hidden="true"> — </span>{label}</p>
+  <p class="label" aria-hidden="true">{number} / {total}</p>
+</div>
