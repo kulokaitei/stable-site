@@ -1,0 +1,73 @@
+---
+/**
+ * 03 — Lessons (see CLAUDE.md "Section 03 — lessons").
+ * Desktop with motion: the section fills the screen and is pinned; the walk loop plays at
+ * normal speed while the four levels change one at a time beside it; the ground's tick marks
+ * drift right → left. Mobile / reduced motion: no pin — video on top, levels stacked below.
+ * Behaviour: src/scripts/lessons.ts. `pinned:` = desktop + motion (see global.css).
+ */
+import { lessons } from '../data/content';
+import SectionMeta from './SectionMeta.astro';
+import Title from './Title.astro';
+const total = String(lessons.levels.length).padStart(2, '0');
+---
+<section id="lessons" aria-labelledby="lessons-title" data-section="03" data-lessons class="relative py-24 md:py-40 pinned:flex pinned:h-svh pinned:min-h-[640px] pinned:flex-col pinned:py-0 pinned:pb-10 pinned:pt-28">
+  <div class="mx-auto w-full max-w-[1600px] px-5 md:px-10 pinned:flex pinned:flex-1 pinned:flex-col">
+    <SectionMeta number={lessons.number} label={lessons.label} />
+
+    <div class="mt-12 grid gap-12 md:mt-20 lg:grid-cols-12 lg:gap-x-10 pinned:mt-0 pinned:flex-1 pinned:content-center pinned:gap-y-10">
+      <Title id="lessons-title" title={lessons.title} class="max-w-[14ch] text-5xl md:text-7xl lg:col-span-4 lg:col-start-9 lg:row-start-1 lg:self-end lg:text-6xl xl:text-7xl" />
+
+      <!-- Horse + ground -->
+      <div class="lg:col-span-7 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:self-center">
+        <div class="edge-fade relative aspect-video overflow-hidden bg-bg">
+          <!-- src is set by the script when the section is near (data-src) -->
+          <video
+            class="blend-bg motion-only h-full w-full object-cover"
+            data-src={lessons.video.src}
+            poster={lessons.video.poster}
+            muted
+            loop
+            playsinline
+            preload="none"
+            aria-label={lessons.video.alt}
+            data-walk-video
+          ></video>
+          <img
+            class="blend-bg still-only h-full w-full object-cover"
+            src={lessons.video.poster}
+            alt={lessons.video.alt}
+            width="1280"
+            height="720"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <!-- The ground: hairline + tick marks; the inner strip is one tick wider so it can loop -->
+        <div class="mt-2 overflow-hidden" aria-hidden="true">
+          <div class="ground w-[calc(100%+48px)]" data-ground></div>
+        </div>
+      </div>
+
+      <!-- Levels -->
+      <div class="lg:col-span-4 lg:col-start-9 lg:row-start-2 lg:self-start">
+        <p class="label mb-8 hidden text-muted pinned:block" aria-hidden="true">
+          <span class="inline-flex overflow-hidden align-top"><span class="inline-block text-ink" data-level-current>01</span></span> / {total}
+        </p>
+        <ol class="flex flex-col gap-12 pinned:grid pinned:gap-0 pinned:*:[grid-area:1/1]" data-levels>
+          {lessons.levels.map((level) => (
+            <li class="rule pt-6" data-level>
+              <p class="label text-accent">{level.number}</p>
+              <h3 class="display mt-4 text-4xl md:text-5xl">{level.title}</h3>
+              <p class="mt-4 leading-relaxed text-muted">{level.body}</p>
+              <ul class="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+                {level.details.map((d) => <li class="label text-muted">{d}</li>)}
+              </ul>
+            </li>
+          ))}
+        </ol>
+        <a href={lessons.cta.href} class="btn mt-12 pinned:mt-10">{lessons.cta.label}</a>
+      </div>
+    </div>
+  </div>
+</section>

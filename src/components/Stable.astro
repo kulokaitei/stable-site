@@ -1,0 +1,80 @@
+---
+/** 02 — The stable. Text stays still; photos reveal and drift (scripts/stable.ts). */
+import { stable } from '../data/content';
+import SectionMeta from './SectionMeta.astro';
+import Title from './Title.astro';
+---
+<section id="stable" aria-labelledby="stable-title" data-section="02" class="mx-auto max-w-[1600px] px-5 py-24 md:px-10 md:py-40">
+  <SectionMeta number={stable.number} label={stable.label} />
+
+  <div class="mt-12 grid gap-12 md:mt-20 md:grid-cols-12 md:gap-10">
+    <Title id="stable-title" title={stable.title} class="text-5xl md:col-span-7 md:text-7xl lg:text-8xl" />
+    <div class="flex flex-col gap-6 text-base leading-relaxed text-muted md:col-span-4 md:col-start-9 md:pt-4">
+      {stable.body.map((p) => <p>{p}</p>)}
+    </div>
+  </div>
+
+  <!--
+    Gallery: the aisle large, two smaller photos at different depths.
+    data-depth = how far each one drifts over the section's scroll (fraction of its height, max 0.15).
+    data-wipe / data-wipe-inner = reveal from the bottom (scripts/stable.ts).
+  -->
+  <div class="relative mt-16 md:mt-28 md:pb-[6%]" data-stable-gallery>
+    <figure class="relative w-full md:w-[76%]" data-depth="0.05">
+      <div class="aspect-[4/3] overflow-hidden sm:aspect-[16/9]" data-wipe>
+        <div class="h-full w-full" data-wipe-inner>
+          <img
+            src={stable.image.src}
+            alt={stable.image.alt}
+            width={stable.image.width}
+            height={stable.image.height}
+            loading="lazy"
+            decoding="async"
+            class="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+    </figure>
+
+    <figure class="relative z-10 -mt-16 ml-auto w-[56%] md:absolute md:right-0 md:top-[16%] md:mt-0 md:w-[30%]" data-depth="0.15">
+      <div class="aspect-[4/5] overflow-hidden bg-bg p-1.5 md:p-2" data-wipe>
+        <div class="h-full w-full" data-wipe-inner>
+          <img
+            src={stable.details[0].src}
+            alt={stable.details[0].alt}
+            width={stable.details[0].width}
+            height={stable.details[0].height}
+            loading="lazy"
+            decoding="async"
+            class="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+    </figure>
+
+    <figure class="relative z-10 -mt-24 w-[46%] md:-mt-[9%] md:ml-[8%] md:w-[22%]" data-depth="0.1">
+      <div class="aspect-[3/4] overflow-hidden bg-bg p-1.5 md:p-2" data-wipe>
+        <div class="h-full w-full" data-wipe-inner>
+          <img
+            src={stable.details[1].src}
+            alt={stable.details[1].alt}
+            width={stable.details[1].width}
+            height={stable.details[1].height}
+            loading="lazy"
+            decoding="async"
+            class="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+    </figure>
+  </div>
+
+  <dl class="rule mt-12 grid grid-cols-3">
+    {stable.facts.map((fact, i) => (
+      <div class:list={['hairline pt-6', i > 0 && 'border-l pl-5 md:pl-10']}>
+        <dt class="label text-muted">{fact.label}</dt>
+        <dd class="display mt-3 text-4xl md:text-6xl">{fact.value}</dd>
+      </div>
+    ))}
+  </dl>
+</section>

@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import Preloader from '../components/Preloader.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Stable from '../components/Stable.astro';
+import Lessons from '../components/Lessons.astro';
+import Day from '../components/Day.astro';
+import Horses from '../components/Horses.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+---
+<Base structuredData preloadHero>
+  <Preloader />
+  <Header />
+  <main id="main" tabindex="-1">
+    <Hero />
+    <Stable />
+    <Lessons />
+    <Day />
+    <Horses />
+    <Contact />
+  </main>
+  <Footer />
+</Base>
