@@ -22,7 +22,7 @@ export const seo = {
   // Used for Google's business listing data (structured data). SAMPLE values.
   business: {
     email: 'hello@ashgrovestables.lt',
-    telephone: '+370 612 34567',
+    telephone: '+370 600 00000', // SAMPLE placeholder — replace with the real number
     priceRange: '€35–€70',
     address: {
       streetAddress: 'Ashgrove farm',
@@ -290,7 +290,7 @@ export const contact = {
   // SAMPLE contact details.
   details: [
     { label: 'Address', value: 'Ashgrove farm, Vilnius district' },
-    { label: 'Phone', value: '+370 612 34567', href: 'tel:+37061234567' as string | null },
+    { label: 'Phone', value: '+370 600 00000', href: null as string | null },
     { label: 'Email', value: 'hello@ashgrovestables.lt', href: 'mailto:hello@ashgrovestables.lt' as string | null },
     { label: 'Hours', value: 'Tue–Fri 8:00–20:00 · Sat–Sun 8:00–18:00' },
   ],
